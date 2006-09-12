@@ -5,7 +5,7 @@
  * Adds the required Javascript to the bottom of all your Drupal pages
  * to allow tracking by the Google Analytics statistics package.
  *
- * @author: Mike Carter <mike@ixis.co.uk>
+ * @author: Mike Carter <www.ixis.co.uk/contact>
  */
 
 
@@ -42,7 +42,25 @@ function googleanalytics_footer($main = 0) {
       $prefix = 's://ssl';
     }
 
-    return '<script type="text/javascript" src="http' . $prefix . '.google-analytics.com/urchin.js"></script><script type="text/javascript">_uacct = "'.$id.'";urchinTracker();</script>';
+    // Add User profile segmentation values
+    if(is_array($profile_fields = variable_get('googleanalytics_segmentation', ''))) {;
+
+      $p = profile_load_profile($user);
+
+      $fields = array();
+      foreach($profile_fields as $field => $title) {
+        $value = $user->$field;
+
+        if(is_array($value)) {
+          $value = implode('.', $value);
+        }
+
+        $fields[$field] = $value;
+      }
+      $segmentation = "__utmSetVar('".implode(':', $fields)."');";
+    }
+
+    return '<script type="text/javascript" src="http' . $prefix . '.google-analytics.com/urchin.js"></script><script type="text/javascript">_uacct = "'.$id."\";urchinTracker();{$segmentation}</script>";
   }
 }
 
@@ -82,6 +100,36 @@ function googleanalytics_settings() {
       '#type' => 'checkbox',
       '#title' => t($role->name),
       '#default_value' => variable_get("googleanalytics_track_{$role->name}", FALSE),
+    );
+  }
+
+  $form['segmentation'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('User Segmentation'),
+        '#collapsible' => TRUE,
+        '#description' => t('If your users have profile fields completed, you can track your logged in users based on a defined profile field.')
+  );
+
+  if(!module_exist('profile')) {
+    $form['segmentation']['profile'] = array(
+          '#value' => t('You need to activate the %profile to use this feature.', array('%profile' => l('profile.module', 'admin/modules')) )
+    );
+  } else {
+    // Compile a list of fields to show.
+    $fields = array();
+    $result = db_query('SELECT name, title, type, weight FROM {profile_fields} ORDER BY weight');
+    while ($record = db_fetch_object($result)) {
+      $fields[$record->name] = $record->title;
+    }
+
+    $form['segmentation']["googleanalytics_segmentation"] = array(
+      '#type' => 'select',
+      '#title' => t('Track'),
+      '#description' => t('Selecting one or more values allows you to track users by profile values rather than simple an IP address.'),
+      '#default_value' => variable_get("googleanalytics_segmentation", ''),
+      '#options' => $fields,
+      '#size' => 10,
+      '#multiple' => TRUE
     );
   }
 
