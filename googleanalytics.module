@@ -43,7 +43,7 @@ function googleanalytics_footer($main = 0) {
     }
 
     // Add User profile segmentation values
-    if(is_array($profile_fields = variable_get('googleanalytics_segmentation', ''))) {;
+    if(is_array($profile_fields = variable_get('googleanalytics_segmentation', '')) && ($user->uid > 0)) {;
 
       $p = profile_load_profile($user);
 
