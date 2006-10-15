@@ -58,10 +58,14 @@ function googleanalytics_footer($main = 0) {
         $fields[$field] = $value;
       }
       $segmentation = "__utmSetVar('".implode(':', $fields)."');";
-    }
-
-    return '<script type="text/javascript" src="http' . $prefix . '.google-analytics.com/urchin.js"></script><script type="text/javascript">_uacct = "'.$id."\";urchinTracker();{$segmentation}</script>";
+		}
+		
+		// Add any custom code snippets if specified
+		$codesnippet = variable_get('googleanalytics_codesnippet', '');
+		
+    return '<script type="text/javascript" src="http' . $prefix . '.google-analytics.com/urchin.js"></script><script type="text/javascript">_uacct = "'.$id."\";{$segmentation}{$codesnippet}urchinTracker();</script>";
   }
+  
 }
 
 
@@ -132,7 +136,22 @@ function googleanalytics_settings() {
       '#multiple' => TRUE
     );
   }
-
+  
+  $form['advanced'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Advanced'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#description' => t('You can add custom Google Analytic code here.')
+  );
+  $form['advanced']['googleanalytics_codesnippet'] = array(
+      '#type' => 'textarea',
+      '#title' => t('JavaScript Code'),
+      '#default_value' => variable_get('googleanalytics_codesnippet',''),
+      '#rows' => 15,
+      '#description' => t('Paste %snippets here. These will be added to every page that Google Analytics appears on. For help with this feature see the %blog. <strong>Do not include the &lt;script&gt; tags</strong>, and always end your code with a semicolon (;).', array('%snippets' => l(t('custom code snippets'), 'http://drupal.org/node/39282'), '%blog' => l(t('cutroni.com blog'), 'http://cutroni.com/blog/') ) )
+  );
+    
   return $form;
 }
 ?>
