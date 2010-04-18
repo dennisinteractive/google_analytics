@@ -46,7 +46,7 @@ function googleanalytics_menu($maycache) {
     // 3. Check if we should track the currently active user's role.
     if (!empty($id) && _googleanalytics_visibility_pages() && _googleanalytics_visibility_user($user)) {
       // Use the old version of Google Analytics?
-      $legacy_version = variable_get('googleanalytics_legacy_version', FALSE);
+      $legacy_version = variable_get('googleanalytics_legacy_version', 0);
       $scope = variable_get('googleanalytics_js_scope', 'footer');
 
       // Should a local cached copy of urchin.js or ga.js be used?
@@ -105,7 +105,7 @@ function googleanalytics_footer($main = 0) {
   if (!empty($id) && _googleanalytics_visibility_pages() && _googleanalytics_visibility_user($user)) {
 
     // Use the old version of Google Analytics?
-    $legacy_version = variable_get('googleanalytics_legacy_version', 1);
+    $legacy_version = variable_get('googleanalytics_legacy_version', 0);
 
     // Add User profile segmentation values
     if (is_array($profile_fields = variable_get('googleanalytics_segmentation', '')) && ($user->uid > 0)) {
