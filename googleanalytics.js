@@ -46,7 +46,7 @@ Drupal.gaTrackerAttach = function(context) {
             pageTracker._trackEvent("Mails", "Click", this.href.substring(7));
           }
         }
-        else if (ga.trackOutgoing) {
+        else if (ga.trackOutgoing && this.href) {
           // External link clicked. Clean and track the URL.
           if (ga.LegacyVersion) {
             urchinTracker('/outgoing/' + this.href.replace(/^(https?|ftp|news|nntp|telnet|irc|ssh|sftp|webcal):\/\//i, '').split('/').join('--'));
