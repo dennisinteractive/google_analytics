@@ -1,5 +1,4 @@
 <?php
-//$Id$
 
 function googleanalytics_install() {
   $result = db_query('SELECT * FROM {role} ORDER BY name');
