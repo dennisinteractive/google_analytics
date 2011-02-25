@@ -1,4 +1,3 @@
-# $Id$
 #
 # Russian translation of Drupal5.x (googleanalytics.module)
 # Copyright 2007 vadbars <vadbars@mail.ru>
