@@ -1,4 +1,3 @@
-# $Id$
 #
 # Spanish Spain translation of Drupal (googleanalytics.module)
 # Copyright 2007 Jorge Valencia <jorgev@jorgev.es>

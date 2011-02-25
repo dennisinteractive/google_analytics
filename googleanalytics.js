@@ -1,4 +1,3 @@
-// $Id$
 
 Drupal.gaTrackerAttach = function(context) {
   context = context || document;
