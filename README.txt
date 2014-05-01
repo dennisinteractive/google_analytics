@@ -74,3 +74,10 @@ provided for any customisations you include.
 
 To speed up page loading you may also cache the Analytics ga.js
 file locally.
+
+Known issues
+============
+
+- Token: The minimum required Drupal 7 version is 7.x-1.0-beta1. Token module is
+  optional for GA, but if installed you need at minimum this versions or you may
+  experience the issues documented in #1035030.
