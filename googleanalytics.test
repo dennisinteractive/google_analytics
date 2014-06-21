@@ -487,13 +487,13 @@ class GoogleAnalyticsPhpFilterTest extends DrupalWebTestCase {
     // Check tracking code visibility.
     variable_set('googleanalytics_pages', '<?php return TRUE; ?>');
     $this->drupalGet('');
-    $this->assertRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPhpFilter]: Tracking is displayed on frontpage page.');
+    $this->assertRaw('google-analytics.com/ga.js', '[testGoogleAnalyticsPhpFilter]: Tracking is displayed on frontpage page.');
     $this->drupalGet('admin');
-    $this->assertRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPhpFilter]: Tracking is displayed on admin page.');
+    $this->assertRaw('google-analytics.com/ga.js', '[testGoogleAnalyticsPhpFilter]: Tracking is displayed on admin page.');
 
     variable_set('googleanalytics_pages', '<?php return FALSE; ?>');
     $this->drupalGet('');
-    $this->assertNoRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPhpFilter]: Tracking is not displayed on frontpage page.');
+    $this->assertNoRaw('google-analytics.com/ga.js', '[testGoogleAnalyticsPhpFilter]: Tracking is not displayed on frontpage page.');
 
     // Test administration form.
     variable_set('googleanalytics_pages', '<?php return TRUE; ?>');
