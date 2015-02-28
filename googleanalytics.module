@@ -32,7 +32,7 @@ function googleanalytics_menu($maycache) {
       'title' => t('Google Analytics'),
       'description' => t('Configure the settings used to generate your Google Analytics tracking code.'),
       'callback' => 'drupal_get_form',
-      'callback arguments' => 'googleanalytics_admin_settings_form',
+      'callback arguments' => array('googleanalytics_admin_settings_form'),
       'access' => user_access('administer google analytics'),
       'type' => MENU_NORMAL_ITEM,
     );
