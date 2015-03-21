@@ -109,7 +109,7 @@ function googleanalytics_footer($main = 0) {
     // Add User profile segmentation values
     if (is_array($profile_fields = variable_get('googleanalytics_segmentation', '')) && ($user->uid > 0)) {
 
-      $p = module_invoke('profile', 'load_profile', $user);
+      $p = profile_load_profile($user);
 
       $fields = array();
       foreach ($profile_fields as $field => $title) {
