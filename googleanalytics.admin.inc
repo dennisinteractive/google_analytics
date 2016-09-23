@@ -785,16 +785,18 @@ function _googleanalytics_validate_create_field_name($name) {
   // List of supported field names:
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#create
   $create_only_fields = array(
-    'clientId',
-    'userId',
-    'sampleRate',
-    'siteSpeedSampleRate',
-    'alwaysSendReferrer',
     'allowAnchor',
+    'alwaysSendReferrer',
+    'clientId',
     'cookieName',
     'cookieDomain',
     'cookieExpires',
     'legacyCookieDomain',
+    'legacyHistoryImport',
+    'sampleRate',
+    'siteSpeedSampleRate',
+    'storage',
+    'userId',
   );
 
   if ($name == 'name') {
