@@ -856,16 +856,18 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
     // List of supported field names:
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#create
     $create_only_fields = [
-      'clientId',
-      'userId',
-      'sampleRate',
-      'siteSpeedSampleRate',
       'alwaysSendReferrer',
       'allowAnchor',
+      'clientId',
       'cookieName',
       'cookieDomain',
       'cookieExpires',
       'legacyCookieDomain',
+      'legacyHistoryImport',
+      'sampleRate',
+      'siteSpeedSampleRate',
+      'storage',
+      'userId',
     ];
 
     if ($name == 'name') {
