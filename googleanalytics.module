@@ -121,7 +121,7 @@ function googleanalytics_add_js(&$vars, $hook) {
       $link_settings['trackDownloadExtensions'] = $trackfiles_extensions;
     }
     if ($track_domain_mode = variable_get('googleanalytics_domain_mode', 0)) {
-      $link_settings['trackDomainMode'] = $track_domain_mode;
+      $link_settings['trackDomainMode'] = (int) $track_domain_mode;
     }
     if ($track_cross_domains = variable_get('googleanalytics_cross_domains', '')) {
       $link_settings['trackCrossDomains'] = preg_split('/(\r\n?|\n)/', $track_cross_domains);
