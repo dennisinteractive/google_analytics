@@ -313,12 +313,13 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     $this->config('google_analytics.settings')
       ->set('codesnippet.create', $codesnippet_create)
       ->set('codesnippet.before', 'ga("set", "forceSSL", true);')
-      ->set('codesnippet.after', 'ga("create", "UA-123456-3", {"name": "newTracker"});ga("newTracker.send", "pageview");')
+      ->set('codesnippet.after', 'ga("create", "UA-123456-3", {"name": "newTracker"});if(1 == 1 && 2 < 3 && 2 > 1){console.log("Google Analytics: Custom condition works.");}ga("newTracker.send", "pageview");')
       ->save();
     $this->drupalGet('');
     $this->assertRaw('ga("create", "' . $ua_code . '", {"cookieDomain":"foo.example.com","cookieName":"myNewName","cookieExpires":20000,"allowAnchor":true,"sampleRate":4.3});', '[testGoogleAnalyticsTrackingCode]: Create only fields have been found.');
     $this->assertRaw('ga("set", "forceSSL", true);', '[testGoogleAnalyticsTrackingCode]: Before codesnippet will force http pages to also send all beacons using https.');
     $this->assertRaw('ga("create", "UA-123456-3", {"name": "newTracker"});', '[testGoogleAnalyticsTrackingCode]: After codesnippet with "newTracker" tracker has been found.');
+    $this->assertRaw('if(1 == 1 && 2 < 3 && 2 > 1){console.log("Google Analytics: Custom condition works.");}', '[testGoogleAnalyticsTrackingCode]: JavaScript code is not HTML escaped.');
   }
 
 }
