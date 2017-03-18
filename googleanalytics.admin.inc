@@ -18,7 +18,7 @@ function googleanalytics_admin_settings_form($form_state) {
     '#title' => t('Web Property ID'),
     '#type' => 'textfield',
     '#default_value' => variable_get('googleanalytics_account', 'UA-'),
-    '#size' => 15,
+    '#size' => 20,
     '#maxlength' => 20,
     '#required' => TRUE,
     '#description' => t('This ID is unique to each site you want to track separately, and is in the form of UA-xxxxxxx-yy. To get a Web Property ID, <a href="@analytics">register your site with Google Analytics</a>, or if you already have registered your site, go to your Google Analytics Settings page to see the ID next to every site profile. <a href="@webpropertyid">Find more information in the documentation</a>.', array('@analytics' => 'http://www.google.com/analytics/', '@webpropertyid' => url('https://developers.google.com/analytics/resources/concepts/gaConceptsAccounts', array('fragment' => 'webProperty')))),
