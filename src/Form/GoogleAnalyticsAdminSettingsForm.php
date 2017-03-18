@@ -44,7 +44,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       '#maxlength' => 20,
       '#placeholder' => 'UA-',
       '#required' => TRUE,
-      '#size' => 15,
+      '#size' => 20,
       '#title' => $this->t('Web Property ID'),
       '#type' => 'textfield',
     ];
