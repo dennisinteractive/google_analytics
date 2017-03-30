@@ -51,7 +51,7 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     $this->drupalLogin($this->admin_user);
 
     // Place the block or the help is not shown.
-    $this->drupalPlaceBlock('help_block', array('region' => 'help'));
+    $this->drupalPlaceBlock('help_block', ['region' => 'help']);
   }
 
   /**
@@ -197,7 +197,7 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     ga('send', 'pageview');
     </script>
     <!-- End Google Analytics -->
-    */
+     */
 
     // Test whether tracking code uses latest JS.
     $this->config('google_analytics.settings')->set('cache', 0)->save();
