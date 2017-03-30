@@ -267,13 +267,13 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
     $colorbox_dependencies .= t('Requires: @module-list', ['@module-list' => (\Drupal::moduleHandler()->moduleExists('colorbox') ? t('@module (<span class="admin-enabled">enabled</span>)', ['@module' => 'Colorbox']) : t('@module (<span class="admin-missing">disabled</span>)', ['@module' => 'Colorbox']))]);
     $colorbox_dependencies .= '</div>';
 
-    $form['tracking']['linktracking']['google_analytics_trackcolorbox'] = array(
+    $form['tracking']['linktracking']['google_analytics_trackcolorbox'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Track content in colorbox modal dialogs'),
       '#description' => $this->t('Enable to track the content shown in colorbox modal windows.') . $colorbox_dependencies,
       '#default_value' => $config->get('track.colorbox'),
       '#disabled' => (\Drupal::moduleHandler()->moduleExists('colorbox') ? FALSE : TRUE),
-    );
+    ];
 
     $form['tracking']['linktracking']['google_analytics_tracklinkid'] = [
       '#type' => 'checkbox',
