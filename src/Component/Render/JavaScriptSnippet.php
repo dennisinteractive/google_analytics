@@ -4,6 +4,9 @@ namespace Drupal\google_analytics\Component\Render;
 
 use Drupal\Component\Render\MarkupInterface;
 
+/**
+ * Formats a string for JavaScript display.
+ */
 class JavaScriptSnippet implements MarkupInterface {
 
   /**
@@ -16,7 +19,7 @@ class JavaScriptSnippet implements MarkupInterface {
   /**
    * Constructs an HtmlEscapedText object.
    *
-   * @param $string
+   * @param string $string
    *   The string to escape. This value will be cast to a string.
    */
   public function __construct($string) {
