@@ -76,8 +76,10 @@ function google_analytics_page_attachments(array &$page) {
     $status = $exception->getStatusCode();
   }
   $trackable_status_codes = [
-    '403', // Forbidden
-    '404', // Not Found
+    // "Forbidden" status code.
+    '403',
+    // "Not Found" status code.
+    '404',
   ];
 
   // 1. Check if the GA account number has a valid value.
