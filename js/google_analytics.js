@@ -30,19 +30,19 @@
           else if (drupalSettings.google_analytics.trackDownload && Drupal.google_analytics.isDownload(this.href)) {
             // Download link clicked.
             ga('send', {
-              'hitType': 'event',
-              'eventCategory': 'Downloads',
-              'eventAction': Drupal.google_analytics.getDownloadExtension(this.href).toUpperCase(),
-              'eventLabel': Drupal.google_analytics.getPageUrl(this.href),
-              'transport': 'beacon'
+              hitType: 'event',
+              eventCategory: 'Downloads',
+              eventAction: Drupal.google_analytics.getDownloadExtension(this.href).toUpperCase(),
+              eventLabel: Drupal.google_analytics.getPageUrl(this.href),
+              transport: 'beacon'
             });
           }
           else if (Drupal.google_analytics.isInternalSpecial(this.href)) {
             // Keep the internal URL for Google Analytics website overlay intact.
             ga('send', {
-              'hitType': 'pageview',
-              'page': Drupal.google_analytics.getPageUrl(this.href),
-              'transport': 'beacon'
+              hitType: 'pageview',
+              page: Drupal.google_analytics.getPageUrl(this.href),
+              transport: 'beacon'
             });
           }
         }
@@ -50,22 +50,22 @@
           if (drupalSettings.google_analytics.trackMailto && $(this).is("a[href^='mailto:'],area[href^='mailto:']")) {
             // Mailto link clicked.
             ga('send', {
-              'hitType': 'event',
-              'eventCategory': 'Mails',
-              'eventAction': 'Click',
-              'eventLabel': this.href.substring(7),
-              'transport': 'beacon'
+              hitType: 'event',
+              eventCategory: 'Mails',
+              eventAction: 'Click',
+              eventLabel: this.href.substring(7),
+              transport: 'beacon'
             });
           }
           else if (drupalSettings.google_analytics.trackOutbound && this.href.match(/^\w+:\/\//i)) {
             if (drupalSettings.google_analytics.trackDomainMode !== 2 || (drupalSettings.google_analytics.trackDomainMode === 2 && !Drupal.google_analytics.isCrossDomain(this.hostname, drupalSettings.google_analytics.trackCrossDomains))) {
               // External link clicked / No top-level cross domain clicked.
               ga('send', {
-                'hitType': 'event',
-                'eventCategory': 'Outbound links',
-                'eventAction': 'Click',
-                'eventLabel': this.href,
-                'transport': 'beacon'
+                hitType: 'event',
+                eventCategory: 'Outbound links',
+                eventAction: 'Click',
+                eventLabel: this.href,
+                transport: 'beacon'
               });
             }
           }
@@ -77,8 +77,8 @@
     if (drupalSettings.google_analytics.trackUrlFragments) {
       window.onhashchange = function () {
         ga('send', {
-          'hitType': 'pageview',
-          'page': location.pathname + location.search + location.hash
+          hitType: 'pageview',
+          page: location.pathname + location.search + location.hash
         });
       };
     }
