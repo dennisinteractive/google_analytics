@@ -72,7 +72,7 @@ class GoogleAnalyticsVisibilityRoles extends ProcessPluginBase implements Contai
     // Remove role IDs disabled in D6/D7.
     $roles = array_filter($roles);
 
-    $user_role_roles = array();
+    $user_role_roles = [];
 
     if ($roles) {
       foreach ($roles as $key => $role_id) {

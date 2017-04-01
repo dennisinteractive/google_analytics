@@ -90,8 +90,8 @@
         var href = $.colorbox.element().attr('href');
         if (href) {
           ga('send', {
-            'hitType': 'pageview',
-            'page': Drupal.google_analytics.getPageUrl(href)
+            hitType: 'pageview',
+            page: Drupal.google_analytics.getPageUrl(href)
           });
         }
       });
