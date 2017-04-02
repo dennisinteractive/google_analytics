@@ -7,7 +7,7 @@ use Drupal\Component\Render\MarkupInterface;
 /**
  * Formats a string for JavaScript display.
  */
-class JavaScriptSnippet implements MarkupInterface {
+class GoogleAnalyticsJavaScriptSnippet implements MarkupInterface {
 
   /**
    * The string to escape.

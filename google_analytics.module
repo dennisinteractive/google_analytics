@@ -20,7 +20,7 @@ use Drupal\Core\Site\Settings;
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 use GuzzleHttp\Exception\RequestException;
-use Drupal\google_analytics\Component\Render\JavaScriptSnippet;
+use Drupal\google_analytics\Component\Render\GoogleAnalyticsJavaScriptSnippet;
 
 /**
  * Define the default file extension list that should be tracked as download.
@@ -340,7 +340,7 @@ function google_analytics_page_attachments(array &$page) {
     $page['#attached']['html_head'][] = [
       [
         '#tag' => 'script',
-        '#value' => new JavaScriptSnippet($script),
+        '#value' => new GoogleAnalyticsJavaScriptSnippet($script),
       ],
       'google_analytics_tracking_script',
     ];
