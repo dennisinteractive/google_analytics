@@ -712,7 +712,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
   }
 
   /**
-   * Validate if a string contains forbidden tokens not allowed by privacy rules.
+   * Validate if string contains forbidden tokens not allowed by privacy rules.
    *
    * @param string $token_string
    *   A string with one or more tokens to be validated.

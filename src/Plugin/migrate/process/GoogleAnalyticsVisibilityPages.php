@@ -37,8 +37,9 @@ class GoogleAnalyticsVisibilityPages extends ProcessPluginBase implements Contai
   protected $migrationPlugin;
 
   /**
-   * Whether or not to skip Google Analytics that use PHP for visibility. Only
-   * applies if the PHP module is not enabled.
+   * Whether or not to skip Google Analytics that use PHP for visibility.
+   *
+   * Only applies if the PHP module is not enabled.
    *
    * @var bool
    */

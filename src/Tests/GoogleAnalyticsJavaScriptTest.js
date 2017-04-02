@@ -5,7 +5,7 @@
 
 (function ($, Drupal, drupalSettings) {
 
-  /*eslint no-console:0*/
+  /* eslint no-console: 0 */
 
   'use strict';
 
