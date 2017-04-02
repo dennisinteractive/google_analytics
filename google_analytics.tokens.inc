@@ -6,6 +6,7 @@
  */
 
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Render\BubbleableMetadata;
 
 /**
  * Implements hook_token_info().
@@ -30,7 +31,7 @@ function google_analytics_token_info() {
 /**
  * Implements hook_tokens().
  */
-function google_analytics_tokens($type, $tokens, array $data, array $options, \Drupal\Core\Render\BubbleableMetadata $bubbleable_metadata) {
+function google_analytics_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
   $sanitize = !empty($options['sanitize']);
   $replacements = [];
 

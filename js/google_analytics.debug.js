@@ -5,7 +5,7 @@
 
 (function ($, Drupal, drupalSettings) {
 
-  /* eslint no-console:0 */
+  /* eslint no-console: 0, max-nested-callbacks: ["error", 4] */
 
   'use strict';
 

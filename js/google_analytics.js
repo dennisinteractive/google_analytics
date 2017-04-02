@@ -5,6 +5,8 @@
 
 (function ($, Drupal, drupalSettings) {
 
+  /* eslint max-nested-callbacks: ["error", 4] */
+
   'use strict';
 
   Drupal.google_analytics = {};
