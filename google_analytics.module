@@ -167,7 +167,7 @@ function google_analytics_page_attachments(array &$page) {
       // language code does not match its source language code.
       if ($request->attributes->has('node')) {
         $node = $request->attributes->get('node');
-        if ($node instanceof NodeInterface && \Drupal::entityManager()->getTranslationFromContext($node) !== $node->getUntranslated()) {
+        if ($node instanceof NodeInterface && \Drupal::service('entity.repository')->getTranslationFromContext($node) !== $node->getUntranslated()) {
           $url_custom = Json::encode(Url::fromRoute('entity.node.canonical', ['node' => $node->id()], ['language' => $node->getUntranslated()->language()])->toString());
         }
       }
@@ -532,7 +532,7 @@ function google_analytics_clear_js_cache() {
   $path = 'public://google_analytics';
   if (file_prepare_directory($path)) {
     file_scan_directory($path, '/.*/', ['callback' => 'file_unmanaged_delete']);
-    drupal_rmdir($path);
+    \Drupal::service('file_system')->rmdir($path);
 
     // Change query-strings on css/js files to enforce reload for all users.
     _drupal_flush_css_js();
