@@ -633,6 +633,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       ->set('track.files_extensions', $form_state->getValue('google_analytics_trackfiles_extensions'))
       ->set('track.colorbox', $form_state->getValue('google_analytics_trackcolorbox'))
       ->set('track.linkid', $form_state->getValue('google_analytics_tracklinkid'))
+      ->set('track.urlfragments', $form_state->getValue('google_analytics_trackurlfragments'))
       ->set('track.userid', $form_state->getValue('google_analytics_trackuserid'))
       ->set('track.mailto', $form_state->getValue('google_analytics_trackmailto'))
       ->set('track.messages', $form_state->getValue('google_analytics_trackmessages'))
