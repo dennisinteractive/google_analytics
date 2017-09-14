@@ -98,7 +98,7 @@ function googleanalytics_menu() {
  * Implements hook_page_alter() to insert JavaScript to the appropriate scope/region of the page.
  */
 function googleanalytics_page_alter(&$page) {
-  global $user;
+  global $base_path, $user;
 
   $id = variable_get('googleanalytics_account', '');
 
@@ -206,6 +206,18 @@ function googleanalytics_page_alter(&$page) {
     }
     elseif ($status == '404 Not Found') {
       $url_custom = '"/404.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
+    }
+
+    // #2693595: User has entered an invalid login and clicked on forgot
+    // password link. This link contains the username or email address and may
+    // get send to Google if we do not override it. Override only if 'name'
+    // query param exists. Last custom url condition, this need to win.
+    //
+    // URLs to protect are:
+    // - user/password?name=username
+    // - user/password?name=foo@example.com
+    if (arg(0) == 'user' && arg(1) == 'password' && array_key_exists('name', drupal_get_query_parameters())) {
+      $url_custom = '"' . $base_path . 'user/password"';
     }
 
     // Add custom dimensions and metrics.
