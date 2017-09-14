@@ -66,6 +66,7 @@ function google_analytics_page_attachments(array &$page) {
   $config = \Drupal::config('google_analytics.settings');
   $id = $config->get('account');
   $request = \Drupal::request();
+  $base_path = base_path();
 
   // Add module cache tags.
   $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $config->getCacheTags());
@@ -180,6 +181,18 @@ function google_analytics_page_attachments(array &$page) {
     }
     elseif ($status == '404') {
       $url_custom = '"/404.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
+    }
+
+    // #2693595: User has entered an invalid login and clicked on forgot
+    // password link. This link contains the username or email address and may
+    // get send to Google if we do not override it. Override only if 'name'
+    // query param exists. Last custom url condition, this need to win.
+    //
+    // URLs to protect are:
+    // - user/password?name=username
+    // - user/password?name=foo@example.com
+    if (\Drupal::routeMatch()->getRouteName() == 'user.pass' && $request->query->has('name')) {
+      $url_custom = '"' . $base_path . 'user/password"';
     }
 
     // Add custom dimensions and metrics.
