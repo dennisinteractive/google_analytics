@@ -51,7 +51,7 @@ class GoogleAnalyticsCustomUrls extends WebTestBase {
     $this->assertRaw('ga("set", "page", "' . $base_path . 'user/password"');
 
     $this->drupalGet('user/password');
-    $this->assertNoRaw('ga("set", "page",', '[testGoogleAnalyticsSearch]: Custom url not set.');
+    $this->assertNoRaw('ga("set", "page",', '[testGoogleAnalyticsCustomUrls]: Custom url not set.');
   }
 
 }
