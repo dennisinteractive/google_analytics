@@ -495,10 +495,6 @@ function _google_analytics_cache($location, $synchronize = FALSE) {
         if ($data_hash_local != $data_hash_remote && file_prepare_directory($path)) {
           // Save updated tracking code file to disk.
           file_unmanaged_save_data($data, $file_destination, FILE_EXISTS_REPLACE);
-          // Based on Drupal Core class AssetDumper.
-          if (extension_loaded('zlib') && \Drupal::config('system.performance')->get('js.gzip')) {
-            file_unmanaged_save_data(gzencode($data, 9, FORCE_GZIP), $file_destination . '.gz', FILE_EXISTS_REPLACE);
-          }
           \Drupal::logger('google_analytics')->info('Locally cached tracking code file has been updated.');
 
           // Change query-strings on css/js files to enforce reload for all
@@ -512,10 +508,6 @@ function _google_analytics_cache($location, $synchronize = FALSE) {
           // There is no need to flush JS here as core refreshes JS caches
           // automatically, if new files are added.
           file_unmanaged_save_data($data, $file_destination, FILE_EXISTS_REPLACE);
-          // Based on Drupal Core class AssetDumper.
-          if (extension_loaded('zlib') && \Drupal::config('system.performance')->get('js.gzip')) {
-            file_unmanaged_save_data(gzencode($data, 9, FORCE_GZIP), $file_destination . '.gz', FILE_EXISTS_REPLACE);
-          }
           \Drupal::logger('google_analytics')->info('Locally cached tracking code file has been saved.');
 
           // Return the local JS file path.
