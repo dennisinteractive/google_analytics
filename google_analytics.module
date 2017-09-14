@@ -177,10 +177,10 @@ function google_analytics_page_attachments(array &$page) {
     // Track access denied (403) and file not found (404) pages.
     if ($status == '403') {
       // See http://www.google.com/support/analytics/bin/answer.py?answer=86927
-      $url_custom = '"/403.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
+      $url_custom = '"' . $base_path . '403.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
     }
     elseif ($status == '404') {
-      $url_custom = '"/404.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
+      $url_custom = '"' . $base_path . '404.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
     }
 
     // #2693595: User has entered an invalid login and clicked on forgot

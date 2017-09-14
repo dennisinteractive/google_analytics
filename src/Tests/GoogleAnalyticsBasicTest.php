@@ -162,15 +162,17 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     // Enable tracking code for all user roles.
     $this->config('google_analytics.settings')->set('visibility.user_role_roles', [])->save();
 
+    $base_path = base_path();
+
     // Test whether 403 forbidden tracking code is shown if user has no access.
     $this->drupalGet('admin');
     $this->assertResponse(403);
-    $this->assertRaw('/403.html', '[testGoogleAnalyticsPageVisibility]: 403 Forbidden tracking code shown if user has no access.');
+    $this->assertRaw($base_path . '403.html', '[testGoogleAnalyticsPageVisibility]: 403 Forbidden tracking code shown if user has no access.');
 
     // Test whether 404 not found tracking code is shown on non-existent pages.
     $this->drupalGet($this->randomMachineName(64));
     $this->assertResponse(404);
-    $this->assertRaw('/404.html', '[testGoogleAnalyticsPageVisibility]: 404 Not Found tracking code shown on non-existent page.');
+    $this->assertRaw($base_path . '404.html', '[testGoogleAnalyticsPageVisibility]: 404 Not Found tracking code shown on non-existent page.');
   }
 
   /**
