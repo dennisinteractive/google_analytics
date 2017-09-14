@@ -202,10 +202,10 @@ function googleanalytics_page_alter(&$page) {
     // Track access denied (403) and file not found (404) pages.
     if ($status == '403 Forbidden') {
       // See http://www.google.com/support/analytics/bin/answer.py?answer=86927
-      $url_custom = '"/403.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
+      $url_custom = '"' . $base_path . '403.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
     }
     elseif ($status == '404 Not Found') {
-      $url_custom = '"/404.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
+      $url_custom = '"' . $base_path . '404.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
     }
 
     // #2693595: User has entered an invalid login and clicked on forgot
