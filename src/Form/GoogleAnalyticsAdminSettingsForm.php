@@ -49,6 +49,13 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
     ];
 
+    $form['general']['google_analytics_premium'] = [
+      '#default_value' => $config->get('premium'),
+      '#description' => $this->t('If you are a Google Analytics Premium customer, you can use up to 200 instead of 20 custom dimensions and metrics.'),
+      '#title' => $this->t('Premium account'),
+      '#type' => 'checkbox',
+    ];
+
     // Visibility settings.
     $form['tracking_scope'] = [
       '#type' => 'vertical_tabs',
@@ -368,13 +375,15 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
 
     $google_analytics_custom_dimension = $config->get('custom.dimension');
 
-    // Google Analytics supports up to 20 custom dimensions.
-    for ($i = 1; $i <= 20; $i++) {
+    // Standard Google Analytics accounts support up to 20 custom dimensions,
+    // premium accounts support up to 200 custom dimensions.
+    $limit = ($config->get('premium')) ? 200 : 20;
+    for ($i = 1; $i <= $limit; $i++) {
       $form['google_analytics_custom_dimension']['indexes'][$i]['index'] = [
         '#default_value' => $i,
         '#description' => $this->t('Index number'),
         '#disabled' => TRUE,
-        '#size' => 2,
+        '#size' => ($limit == 200) ? 3 : 2,
         '#title' => $this->t('Custom dimension index #@index', ['@index' => $i]),
         '#title_display' => 'invisible',
         '#type' => 'textfield',
@@ -423,13 +432,14 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
 
     $google_analytics_custom_metric = $config->get('custom.metric');
 
-    // Google Analytics supports up to 20 custom metrics.
-    for ($i = 1; $i <= 20; $i++) {
+    // Standard Google Analytics accounts support up to 20 custom metrics,
+    // premium accounts support up to 200 custom metrics.
+    for ($i = 1; $i <= $limit; $i++) {
       $form['google_analytics_custom_metric']['indexes'][$i]['index'] = [
         '#default_value' => $i,
         '#description' => $this->t('Index number'),
         '#disabled' => TRUE,
-        '#size' => 2,
+        '#size' => ($limit == 200) ? 3 : 2,
         '#title' => $this->t('Custom metric index #@index', ['@index' => $i]),
         '#title_display' => 'invisible',
         '#type' => 'textfield',
@@ -622,6 +632,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
     $config = $this->config('google_analytics.settings');
     $config
       ->set('account', $form_state->getValue('google_analytics_account'))
+      ->set('premium', $form_state->getValue('google_analytics_premium'))
       ->set('cross_domains', $form_state->getValue('google_analytics_cross_domains'))
       ->set('codesnippet.create', $form_state->getValue('google_analytics_codesnippet_create'))
       ->set('codesnippet.before', $form_state->getValue('google_analytics_codesnippet_before'))
