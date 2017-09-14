@@ -6,7 +6,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\simpletest\WebTestBase;
 
 /**
- * Test basic functionality of Google Analytics module.
+ * Test custom url functionality of Google Analytics module.
  *
  * @group Google Analytics
  */
