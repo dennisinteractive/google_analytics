@@ -268,11 +268,10 @@ function googleanalytics_page_alter(&$page) {
     $script .= '})(window,document,"script",';
 
     // Which version of the tracking library should be used?
-    $library_tracker_url = '//www.google-analytics.com/' . ($debug ? 'analytics_debug.js' : 'analytics.js');
-    $library_cache_url = 'http:' . $library_tracker_url;
+    $library_tracker_url = 'https://www.google-analytics.com/' . ($debug ? 'analytics_debug.js' : 'analytics.js');
 
     // Should a local cached copy of analytics.js be used?
-    if (variable_get('googleanalytics_cache', 0) && $url = _googleanalytics_cache($library_cache_url)) {
+    if (variable_get('googleanalytics_cache', 0) && $url = _googleanalytics_cache($library_tracker_url)) {
       // A dummy query-string is added to filenames, to gain control over
       // browser-caching. The string changes on every update or full cache
       // flush, forcing browsers to load a new copy of the files, as the
@@ -474,7 +473,7 @@ function googleanalytics_user_presave(&$edit, $account, $category) {
 function googleanalytics_cron() {
   // Regenerate the tracking code file every day.
   if (REQUEST_TIME - variable_get('googleanalytics_last_cache', 0) >= 86400 && variable_get('googleanalytics_cache', 0)) {
-    _googleanalytics_cache('http://www.google-analytics.com/analytics.js', TRUE);
+    _googleanalytics_cache('https://www.google-analytics.com/analytics.js', TRUE);
     variable_set('googleanalytics_last_cache', REQUEST_TIME);
   }
 }
