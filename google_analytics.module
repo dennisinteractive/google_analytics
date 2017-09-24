@@ -32,7 +32,7 @@ define('GOOGLE_ANALYTICS_TRACKFILES_EXTENSIONS', '7z|aac|arc|arj|asf|asx|avi|bin
  */
 function google_analytics_api() {
   return [
-    'api' => 'analytics.js',
+    'api' => 'gtag.js',
   ];
 }
 
@@ -295,7 +295,9 @@ function google_analytics_page_attachments(array &$page) {
     }
 
     // Create a tracker.
-    $script .= 'ga("create", ' . Json::encode($id) . ', ' . Json::encode($create_only_fields) . ');';
+    // $script .= 'ga("create", ' . Json::encode($id) . ', ' . Json::encode($create_only_fields) . ');';
+    // @TODO: $create_only_fields is missing.
+    $script .= 'gtag("config", ' . Json::encode($id) . ');';
 
     // Prepare Adsense tracking.
     $googleanalytics_adsense_script .= 'window.google_analytics_uacct = ' . Json::encode($id) . ';';
@@ -348,6 +350,35 @@ function google_analytics_page_attachments(array &$page) {
       // sounds like it could be appended to $script.
       $script = $googleanalytics_adsense_script . $script;
     }
+
+
+    // Append tracking library directly after script code.
+    if ($debug) {
+      // Debug script has highest priority to load.
+      // @FIXME: Cannot find the debug URL!???
+      $library = 'https://www.googletagmanager.com/gtag/js?' . $id;
+    }
+    /* @TODO: Not clear if possible.
+    elseif ($config->get('cache') && _google_analytics_cache('https://www.google-analytics.com/analytics.js')) {
+      // Should a local cached copy of analytics.js be used?
+      $query_string = '?' . (\Drupal::state()->get('system.css_js_query_string') ?: '0');
+      $library = file_url_transform_relative(file_create_url('public://google_analytics/analytics.js')) . $query_string;
+    } */
+    else {
+      // Fallback to default.
+      $library = 'https://www.googletagmanager.com/gtag/js?' . $id;
+    }
+
+    $page['#attached']['html_head'][] = [
+      [
+        '#tag' => 'script',
+        '#attributes' => array(
+          'async' => TRUE,
+          'src' => $library,
+        ),
+      ],
+      'google_analytics_tracking_file',
+    ];
 
     $page['#attached']['html_head'][] = [
       [
