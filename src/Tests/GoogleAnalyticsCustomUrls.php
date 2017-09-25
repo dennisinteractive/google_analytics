@@ -2,8 +2,8 @@
 
 namespace Drupal\google_analytics\Tests;
 
-use Drupal\Core\Session\AccountInterface;
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\simpletest\WebTestBase;
 
 /**
