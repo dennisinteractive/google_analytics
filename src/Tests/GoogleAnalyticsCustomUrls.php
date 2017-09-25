@@ -45,13 +45,13 @@ class GoogleAnalyticsCustomUrls extends WebTestBase {
     $this->config('google_analytics.settings')->set('account', $ua_code)->save();
 
     $this->drupalGet('user/password', ['query' => ['name' => 'foo']]);
-    $this->assertRaw('ga("set", "page", "' . $base_path . 'user/password"');
+    $this->assertRaw('gtag("config", ' . Json::encode($ua_code) . ', {"groups":"default","page_path":"' . $base_path . 'user/password"});');
 
     $this->drupalGet('user/password', ['query' => ['name' => 'foo@example.com']]);
-    $this->assertRaw('ga("set", "page", "' . $base_path . 'user/password"');
+    $this->assertRaw('gtag("config", ' . Json::encode($ua_code) . ', {"groups":"default","page_path":"' . $base_path . 'user/password"});');
 
     $this->drupalGet('user/password');
-    $this->assertNoRaw('ga("set", "page",', '[testGoogleAnalyticsCustomUrls]: Custom url not set.');
+    $this->assertNoRaw('"page_path":"' . $base_path . 'user/password"});', '[testGoogleAnalyticsCustomUrls]: Custom url not set.');
   }
 
 }

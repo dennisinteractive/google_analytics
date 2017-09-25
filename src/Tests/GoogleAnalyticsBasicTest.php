@@ -207,11 +207,12 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     // Test whether anonymize visitors IP address feature has been enabled.
     $this->config('google_analytics.settings')->set('privacy.anonymizeip', 0)->save();
     $this->drupalGet('');
-    $this->assertNoRaw('ga("set", "anonymizeIp", true);', '[testGoogleAnalyticsTrackingCode]: Anonymize visitors IP address not found on frontpage.');
+    $this->assertNoRaw('"anonymize_ip":true', '[testGoogleAnalyticsTrackingCode]: Anonymize visitors IP address not found on frontpage.');
+
     // Enable anonymizing of IP addresses.
     $this->config('google_analytics.settings')->set('privacy.anonymizeip', 1)->save();
     $this->drupalGet('');
-    $this->assertRaw('ga("set", "anonymizeIp", true);', '[testGoogleAnalyticsTrackingCode]: Anonymize visitors IP address found on frontpage.');
+    $this->assertRaw('"anonymize_ip":true', '[testGoogleAnalyticsTrackingCode]: Anonymize visitors IP address found on frontpage.');
 
     // Test if track Enhanced Link Attribution is enabled.
     $this->config('google_analytics.settings')->set('track.linkid', 1)->save();
@@ -226,12 +227,12 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     // Test if tracking of url fragments is enabled.
     $this->config('google_analytics.settings')->set('track.urlfragments', 1)->save();
     $this->drupalGet('');
-    $this->assertRaw('ga("set", "page", location.pathname + location.search + location.hash);', '[testGoogleAnalyticsTrackingCode]: Tracking code for url fragments is enabled.');
+    $this->assertRaw('"page_path":location.pathname + location.search + location.hash});', '[testGoogleAnalyticsTrackingCode]: Tracking code for url fragments is enabled.');
 
     // Test if tracking of url fragments is disabled.
     $this->config('google_analytics.settings')->set('track.urlfragments', 0)->save();
     $this->drupalGet('');
-    $this->assertNoRaw('ga("set", "page", location.pathname + location.search + location.hash);', '[testGoogleAnalyticsTrackingCode]: Tracking code for url fragments is not enabled.');
+    $this->assertNoRaw('"page_path":location.pathname + location.search + location.hash});', '[testGoogleAnalyticsTrackingCode]: Tracking code for url fragments is not enabled.');
 
     // Test if tracking of User ID is enabled.
     $this->config('google_analytics.settings')->set('track.userid', 1)->save();

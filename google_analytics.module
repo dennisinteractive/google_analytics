@@ -279,13 +279,17 @@ function google_analytics_page_attachments(array &$page) {
     }
 
     if (!empty($url_custom)) {
-      $arguments['page_path'] = $url_custom;
+      $arguments['page_path'] = 'PLACEHOLDER_URL_CUSTOM';
     }
 
     // Create a tracker.
     // $script .= 'ga("create", ' . Json::encode($id) . ', ' . Json::encode($create_only_fields) . ');';
     // @TODO: $create_only_fields is missing.
-    $script .= 'gtag("config", ' . Json::encode($id) . ', ' . Json::encode($arguments) . ');';
+    $arguments_json = Json::encode($arguments);
+    // Json::encode() cannot convert every data type properly.
+    $arguments_json = str_replace('"PLACEHOLDER_URL_CUSTOM"', $url_custom, $arguments_json);
+
+    $script .= 'gtag("config", ' . Json::encode($id) . ', ' . $arguments_json . ');';
 
     // Prepare Adsense tracking.
     $googleanalytics_adsense_script .= 'window.google_analytics_uacct = ' . Json::encode($id) . ';';
