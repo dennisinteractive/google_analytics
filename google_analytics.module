@@ -347,12 +347,11 @@ function google_analytics_page_attachments(array &$page) {
       // @FIXME: Cannot find the debug URL!???
       $library = 'https://www.googletagmanager.com/gtag/js?' . $id;
     }
-    /* @TODO: Not clear if possible.
-    elseif ($config->get('cache') && _google_analytics_cache('https://www.google-analytics.com/analytics.js')) {
-      // Should a local cached copy of analytics.js be used?
+    elseif ($config->get('cache') && _google_analytics_cache('https://www.googletagmanager.com/gtag/js')) {
+      // Should a local cached copy of gtag.js be used?
       $query_string = '?' . (\Drupal::state()->get('system.css_js_query_string') ?: '0');
-      $library = file_url_transform_relative(file_create_url('public://google_analytics/analytics.js')) . $query_string;
-    } */
+      $library = file_url_transform_relative(file_create_url('public://google_analytics/gtag.js')) . $query_string;
+    }
     else {
       // Fallback to default.
       $library = 'https://www.googletagmanager.com/gtag/js?' . $id;
@@ -466,7 +465,7 @@ function google_analytics_cron() {
 
   // Regenerate the tracking code file every day.
   if (REQUEST_TIME - \Drupal::state()->get('google_analytics.last_cache') >= 86400 && $config->get('cache')) {
-    _google_analytics_cache('https://www.google-analytics.com/analytics.js', TRUE);
+    _google_analytics_cache('https://www.googletagmanager.com/gtag/js', TRUE);
     \Drupal::state()->set('google_analytics.last_cache', REQUEST_TIME);
   }
 }
@@ -510,7 +509,7 @@ function google_analytics_preprocess_item_list__search_results(&$variables) {
  */
 function _google_analytics_cache($location, $synchronize = FALSE) {
   $path = 'public://google_analytics';
-  $file_destination = $path . '/' . basename($location);
+  $file_destination = $path . '/gtag.js';
 
   if (!file_exists($file_destination) || $synchronize) {
     // Download the latest tracking code.
