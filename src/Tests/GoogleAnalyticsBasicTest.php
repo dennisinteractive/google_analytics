@@ -316,8 +316,8 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
       ->set('codesnippet.after', 'gtag("config", "UA-123456-3", {"groups":"default"});if(1 == 1 && 2 < 3 && 2 > 1){console.log("Google Analytics: Custom condition works.");}')
       ->save();
     $this->drupalGet('');
-    //$this->assertRaw('gtag("config", ' . $ua_code . '", {"groups":"default","cookie_domain":"foo.example.com","cookie_name":"myNewName","cookie_expires":20000,"allowAnchor":true,"sampleRate":4.3});', '[testGoogleAnalyticsTrackingCode]: Config parameters have been found.');
-    $this->assertRaw('gtag("config", ' . $ua_code . '", {"groups":"default","cookie_domain":"foo.example.com","cookie_name":"myNewName","cookie_expires":20000});', '[testGoogleAnalyticsTrackingCode]: Config parameters have been found.');
+    //$this->assertRaw('gtag("config", "' . $ua_code . '", {"groups":"default","cookie_domain":"foo.example.com","cookie_name":"myNewName","cookie_expires":20000,"allowAnchor":true,"sampleRate":4.3});', '[testGoogleAnalyticsTrackingCode]: Config parameters have been found.');
+    $this->assertRaw('gtag("config", "' . $ua_code . '", {"groups":"default","cookie_domain":"foo.example.com","cookie_name":"myNewName","cookie_expires":20000});', '[testGoogleAnalyticsTrackingCode]: Config parameters have been found.');
     $this->assertRaw('gtag("config", {"currency":"USD"});', '[testGoogleAnalyticsTrackingCode]: Before codesnippet has been found.');
     $this->assertRaw('gtag("config", "UA-123456-3", {"groups":"default"});', '[testGoogleAnalyticsTrackingCode]: After codesnippet custom UA code has been found.');
     $this->assertRaw('if(1 == 1 && 2 < 3 && 2 > 1){console.log("Google Analytics: Custom condition works.");}', '[testGoogleAnalyticsTrackingCode]: JavaScript code is not HTML escaped.');
