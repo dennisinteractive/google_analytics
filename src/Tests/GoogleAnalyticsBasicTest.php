@@ -204,15 +204,15 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     $this->drupalGet('');
     $this->assertRaw('https://www.googletagmanager.com/gtag/js', '[testGoogleAnalyticsTrackingCode]: Latest tracking code used.');
 
-    // Test whether anonymize visitors IP address feature has been enabled.
-    $this->config('google_analytics.settings')->set('privacy.anonymizeip', 0)->save();
-    $this->drupalGet('');
-    $this->assertNoRaw('"anonymize_ip":true', '[testGoogleAnalyticsTrackingCode]: Anonymize visitors IP address not found on frontpage.');
-
     // Enable anonymizing of IP addresses.
     $this->config('google_analytics.settings')->set('privacy.anonymizeip', 1)->save();
     $this->drupalGet('');
     $this->assertRaw('"anonymize_ip":true', '[testGoogleAnalyticsTrackingCode]: Anonymize visitors IP address found on frontpage.');
+
+    // Test whether anonymize visitors IP address feature has been enabled.
+    $this->config('google_analytics.settings')->set('privacy.anonymizeip', 0)->save();
+    $this->drupalGet('');
+    $this->assertNoRaw('"anonymize_ip":true', '[testGoogleAnalyticsTrackingCode]: Anonymize visitors IP address not found on frontpage.');
 
     // Test if track Enhanced Link Attribution is enabled.
     $this->config('google_analytics.settings')->set('track.linkid', 1)->save();
