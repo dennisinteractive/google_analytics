@@ -45,7 +45,11 @@ class GoogleAnalyticsSearchTest extends WebTestBase {
    */
   public function testGoogleAnalyticsSearchTracking() {
     $ua_code = 'UA-123456-1';
-    $this->config('google_analytics.settings')->set('account', $ua_code)->save();
+    $this->config('google_analytics.settings')
+      ->set('account', $ua_code)
+      ->set('privacy.anonymizeip', 0)
+      ->set('track.linkid', 1)
+      ->save();
 
     // Check tracking code visibility.
     $this->drupalGet('');

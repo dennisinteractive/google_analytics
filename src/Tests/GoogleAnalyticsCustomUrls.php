@@ -43,7 +43,11 @@ class GoogleAnalyticsCustomUrls extends WebTestBase {
   public function testGoogleAnalyticsUserPasswordPage() {
     $base_path = base_path();
     $ua_code = 'UA-123456-1';
-    $this->config('google_analytics.settings')->set('account', $ua_code)->save();
+    $this->config('google_analytics.settings')
+      ->set('account', $ua_code)
+      ->set('privacy.anonymizeip', 0)
+      ->set('track.linkid', 1)
+      ->save();
 
     $this->drupalGet('user/password', ['query' => ['name' => 'foo']]);
     $this->assertRaw('gtag("config", ' . Json::encode($ua_code) . ', {"groups":"default","page_path":"' . $base_path . 'user/password"});');
