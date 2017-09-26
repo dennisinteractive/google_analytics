@@ -217,12 +217,12 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     // Test if track Enhanced Link Attribution is enabled.
     $this->config('google_analytics.settings')->set('track.linkid', 1)->save();
     $this->drupalGet('');
-    $this->assertRaw('ga("require", "linkid", "linkid.js");', '[testGoogleAnalyticsTrackingCode]: Tracking code for Enhanced Link Attribution is enabled.');
+    $this->assertNoRaw('"link_attribution":false', '[testGoogleAnalyticsTrackingCode]: Tracking code for Enhanced Link Attribution is enabled.');
 
     // Test if track Enhanced Link Attribution is disabled.
     $this->config('google_analytics.settings')->set('track.linkid', 0)->save();
     $this->drupalGet('');
-    $this->assertNoRaw('ga("require", "linkid", "linkid.js");', '[testGoogleAnalyticsTrackingCode]: Tracking code for Enhanced Link Attribution is not enabled.');
+    $this->assertRaw('"link_attribution":false', '[testGoogleAnalyticsTrackingCode]: Tracking code for Enhanced Link Attribution is not enabled.');
 
     // Test if tracking of url fragments is enabled.
     $this->config('google_analytics.settings')->set('track.urlfragments', 1)->save();
@@ -237,26 +237,26 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     // Test if tracking of User ID is enabled.
     $this->config('google_analytics.settings')->set('track.userid', 1)->save();
     $this->drupalGet('');
-    $this->assertRaw(', {"cookieDomain":"auto","userId":"', '[testGoogleAnalyticsTrackingCode]: Tracking code for User ID is enabled.');
+    $this->assertRaw('"user_id":"', '[testGoogleAnalyticsTrackingCode]: Tracking code for User ID is enabled.');
 
     // Test if tracking of User ID is disabled.
     $this->config('google_analytics.settings')->set('track.userid', 0)->save();
     $this->drupalGet('');
-    $this->assertNoRaw(', {"cookieDomain":"auto","userId":"', '[testGoogleAnalyticsTrackingCode]: Tracking code for User ID is disabled.');
+    $this->assertNoRaw('"user_id":"', '[testGoogleAnalyticsTrackingCode]: Tracking code for User ID is disabled.');
 
     // Test if track display features is enabled.
     $this->config('google_analytics.settings')->set('track.displayfeatures', 1)->save();
     $this->drupalGet('');
-    $this->assertRaw('ga("require", "displayfeatures");', '[testGoogleAnalyticsTrackingCode]: Tracking code for display features is enabled.');
+    $this->assertNoRaw('"allow_display_features":false', '[testGoogleAnalyticsTrackingCode]: Tracking code for display features is enabled.');
 
     // Test if track display features is disabled.
     $this->config('google_analytics.settings')->set('track.displayfeatures', 0)->save();
     $this->drupalGet('');
-    $this->assertNoRaw('ga("require", "displayfeatures");', '[testGoogleAnalyticsTrackingCode]: Tracking code for display features is not enabled.');
+    $this->assertRaw('"allow_display_features":false', '[testGoogleAnalyticsTrackingCode]: Tracking code for display features is not enabled.');
 
     // Test whether single domain tracking is active.
     $this->drupalGet('');
-    $this->assertRaw('{"cookieDomain":"auto"}', '[testGoogleAnalyticsTrackingCode]: Single domain tracking is active.');
+    $this->assertRaw('{"groups":"default"}', '[testGoogleAnalyticsTrackingCode]: Single domain tracking is active.');
 
     // Enable "One domain with multiple subdomains".
     $this->config('google_analytics.settings')->set('domain_mode', 1)->save();
@@ -267,11 +267,11 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     // reliable.
     global $cookie_domain;
     if (count(explode('.', $cookie_domain)) > 2 && !is_numeric(str_replace('.', '', $cookie_domain))) {
-      $this->assertRaw('{"cookieDomain":"' . $cookie_domain . '"}', '[testGoogleAnalyticsTrackingCode]: One domain with multiple subdomains is active on real host.');
+      $this->assertRaw('"cookie_domain":"' . $cookie_domain . '"', '[testGoogleAnalyticsTrackingCode]: One domain with multiple subdomains is active on real host.');
     }
     else {
       // Special cases, Localhost and IP addresses don't show 'cookieDomain'.
-      $this->assertNoRaw('{"cookieDomain":"' . $cookie_domain . '"}', '[testGoogleAnalyticsTrackingCode]: One domain with multiple subdomains may be active on localhost (test result is not reliable).');
+      $this->assertNoRaw('"cookie_domain":"' . $cookie_domain . '"', '[testGoogleAnalyticsTrackingCode]: One domain with multiple subdomains may be active on localhost (test result is not reliable).');
     }
 
     // Enable "Multiple top-level domains" tracking.
@@ -280,9 +280,8 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
       ->set('cross_domains', "www.example.com\nwww.example.net")
       ->save();
     $this->drupalGet('');
-    $this->assertRaw('ga("create", "' . $ua_code . '", {"cookieDomain":"auto","allowLinker":true', '[testGoogleAnalyticsTrackingCode]: "allowLinker" has been found. Cross domain tracking is active.');
-    $this->assertRaw('ga("require", "linker");', '[testGoogleAnalyticsTrackingCode]: Require linker has been found. Cross domain tracking is active.');
-    $this->assertRaw('ga("linker:autoLink", ["www.example.com","www.example.net"]);', '[testGoogleAnalyticsTrackingCode]: "linker:autoLink" has been found. Cross domain tracking is active.');
+    $this->assertRaw('gtag("config", "' . $ua_code . '", {"groups":"default","linker":', '[testGoogleAnalyticsTrackingCode]: "linker" has been found. Cross domain tracking is active.');
+    $this->assertRaw('gtag("config", "' . $ua_code . '", {"groups":"default","linker":{"domains":["www.example.com","www.example.net"]});', '[testGoogleAnalyticsTrackingCode]: "domains" has been found. Cross domain tracking is active.');
     $this->assertRaw('"trackDomainMode":2,', '[testGoogleAnalyticsTrackingCode]: Domain mode value is of type integer.');
     $this->assertRaw('"trackCrossDomains":["www.example.com","www.example.net"]', '[testGoogleAnalyticsTrackingCode]: Cross domain tracking with www.example.com and www.example.net is active.');
     $this->config('google_analytics.settings')->set('domain_mode', 0)->save();
@@ -305,21 +304,22 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     // Test whether the CREATE and BEFORE and AFTER code is added to the
     // tracking code.
     $codesnippet_create = [
-      'cookieDomain' => 'foo.example.com',
-      'cookieName' => 'myNewName',
-      'cookieExpires' => 20000,
-      'allowAnchor' => TRUE,
-      'sampleRate' => 4.3,
+      'cookie_domain' => 'foo.example.com',
+      'cookie_name' => 'myNewName',
+      'cookie_expires' => 20000,
+      //'allowAnchor' => TRUE,
+      //'sampleRate' => 4.3,
     ];
     $this->config('google_analytics.settings')
       ->set('codesnippet.create', $codesnippet_create)
-      ->set('codesnippet.before', 'ga("set", "forceSSL", true);')
-      ->set('codesnippet.after', 'ga("create", "UA-123456-3", {"name": "newTracker"});if(1 == 1 && 2 < 3 && 2 > 1){console.log("Google Analytics: Custom condition works.");}ga("newTracker.send", "pageview");')
+      ->set('codesnippet.before', 'gtag("config", {"currency":"USD"});')
+      ->set('codesnippet.after', 'gtag("config", "UA-123456-3", {"groups":"default"});if(1 == 1 && 2 < 3 && 2 > 1){console.log("Google Analytics: Custom condition works.");}')
       ->save();
     $this->drupalGet('');
-    $this->assertRaw('ga("create", "' . $ua_code . '", {"cookieDomain":"foo.example.com","cookieName":"myNewName","cookieExpires":20000,"allowAnchor":true,"sampleRate":4.3});', '[testGoogleAnalyticsTrackingCode]: Create only fields have been found.');
-    $this->assertRaw('ga("set", "forceSSL", true);', '[testGoogleAnalyticsTrackingCode]: Before codesnippet will force http pages to also send all beacons using https.');
-    $this->assertRaw('ga("create", "UA-123456-3", {"name": "newTracker"});', '[testGoogleAnalyticsTrackingCode]: After codesnippet with "newTracker" tracker has been found.');
+    //$this->assertRaw('gtag("config", ' . $ua_code . '", {"groups":"default","cookie_domain":"foo.example.com","cookie_name":"myNewName","cookie_expires":20000,"allowAnchor":true,"sampleRate":4.3});', '[testGoogleAnalyticsTrackingCode]: Config parameters have been found.');
+    $this->assertRaw('gtag("config", ' . $ua_code . '", {"groups":"default","cookie_domain":"foo.example.com","cookie_name":"myNewName","cookie_expires":20000});', '[testGoogleAnalyticsTrackingCode]: Config parameters have been found.');
+    $this->assertRaw('gtag("config", {"currency":"USD"});', '[testGoogleAnalyticsTrackingCode]: Before codesnippet has been found.');
+    $this->assertRaw('gtag("config", "UA-123456-3", {"groups":"default"});', '[testGoogleAnalyticsTrackingCode]: After codesnippet custom UA code has been found.');
     $this->assertRaw('if(1 == 1 && 2 < 3 && 2 > 1){console.log("Google Analytics: Custom condition works.");}', '[testGoogleAnalyticsTrackingCode]: JavaScript code is not HTML escaped.');
   }
 

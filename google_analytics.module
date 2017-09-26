@@ -147,7 +147,10 @@ function google_analytics_page_attachments(array &$page) {
         if (in_array($type, $message_types)) {
           foreach ($messages as $message) {
             // @todo: Track as exceptions?
-            $message_events .= 'ga("send", "event", ' . Json::encode(t('Messages')) . ', ' . Json::encode($status_heading[$type]) . ', ' . Json::encode(strip_tags($message)) . ');';
+            $event = [];
+            $event['event_category'] = t('Messages');
+            $event['event_label'] = strip_tags($message);
+            $message_events .= 'gtag("event", ' . Json::encode($status_heading[$type]) . ', ' . Json::encode($event) . ');';
           }
         }
       }
@@ -260,12 +263,15 @@ function google_analytics_page_attachments(array &$page) {
     // first. For hosts such as 'localhost' or IP Addresses we don't set a
     // cookie domain.
     if ($domain_mode == 1 && count(explode('.', $cookie_domain)) > 2 && !is_numeric(str_replace('.', '', $cookie_domain))) {
-      $arguments = array_merge($arguments, ['cookieDomain' => $cookie_domain]);
+      $arguments = array_merge($arguments, ['cookie_domain' => $cookie_domain]);
       $googleanalytics_adsense_script .= 'window.google_analytics_domain_name = ' . Json::encode($cookie_domain) . ';';
     }
     elseif ($domain_mode == 2) {
-      // Cross Domain tracking. 'autoLinker' need to be enabled in 'create'.
-      $arguments = array_merge($arguments, ['allowLinker' => TRUE]);
+      // Cross Domain tracking
+      // https://developers.google.com/analytics/devguides/collection/gtagjs/cross-domain
+      $arguments['linker'] = [
+        'domains' => $link_settings['trackCrossDomains'],
+      ];
       $googleanalytics_adsense_script .= 'window.google_analytics_domain_name = "none";';
     }
 
@@ -282,6 +288,18 @@ function google_analytics_page_attachments(array &$page) {
       $arguments['page_path'] = 'PLACEHOLDER_URL_CUSTOM';
     }
 
+    // Add enhanced link attribution after 'create', but before 'pageview' send.
+    // @see https://support.google.com/analytics/answer/2558867
+    if ($config->get('track.linkid')) {
+      $arguments['link_attribution'] = TRUE;
+    }
+
+    // Disabling display features.
+    // @see https://developers.google.com/analytics/devguides/collection/gtagjs/display-features
+    if (!$config->get('track.displayfeatures')) {
+      $arguments['allow_display_features'] = FALSE;
+    }
+
     // Create a tracker.
     // $script .= 'ga("create", ' . Json::encode($id) . ', ' . Json::encode($create_only_fields) . ');';
     // @TODO: $create_only_fields is missing.
@@ -294,38 +312,12 @@ function google_analytics_page_attachments(array &$page) {
     // Prepare Adsense tracking.
     $googleanalytics_adsense_script .= 'window.google_analytics_uacct = ' . Json::encode($id) . ';';
 
-    // Add enhanced link attribution after 'create', but before 'pageview' send.
-    // @see https://support.google.com/analytics/answer/2558867
-    if ($config->get('track.linkid')) {
-      $script .= 'ga("require", "linkid", "linkid.js");';
-    }
-
-    // Add display features after 'create', but before 'pageview' send.
-    // @see https://support.google.com/analytics/answer/2444872
-    if ($config->get('track.displayfeatures')) {
-      $script .= 'ga("require", "displayfeatures");';
-    }
-
-    // Domain tracking type.
-    if ($domain_mode == 2) {
-      // Cross Domain tracking
-      // https://developers.google.com/analytics/devguides/collection/upgrade/reference/gajs-analyticsjs#cross-domain
-      $script .= 'ga("require", "linker");';
-      $script .= 'ga("linker:autoLink", ' . Json::encode($link_settings['trackCrossDomains']) . ');';
-    }
-
     if (!empty($custom_var)) {
       $script .= $custom_var;
     }
     if (!empty($codesnippet_before)) {
       $script .= $codesnippet_before;
     }
-    if (!empty($url_custom)) {
-      // @TODO
-      //$script .= 'ga("set", "page", ' . $url_custom . ');';
-    }
-    //$script .= 'ga("send", "pageview");';
-
     if (!empty($message_events)) {
       $script .= $message_events;
     }
@@ -360,10 +352,10 @@ function google_analytics_page_attachments(array &$page) {
     $page['#attached']['html_head'][] = [
       [
         '#tag' => 'script',
-        '#attributes' => array(
+        '#attributes' => [
           'async' => TRUE,
           'src' => $library,
-        ),
+        ],
       ],
       'google_analytics_tracking_file',
     ];
