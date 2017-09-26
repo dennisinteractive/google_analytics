@@ -46,7 +46,7 @@ class GoogleAnalyticsCustomUrls extends WebTestBase {
     $this->config('google_analytics.settings')
       ->set('account', $ua_code)
       ->set('privacy.anonymizeip', 0)
-      ->set('track.linkid', 1)
+      ->set('track.displayfeatures', 1)
       ->save();
 
     $this->drupalGet('user/password', ['query' => ['name' => 'foo']]);
