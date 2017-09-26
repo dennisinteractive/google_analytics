@@ -217,12 +217,12 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     // Test if track Enhanced Link Attribution is enabled.
     $this->config('google_analytics.settings')->set('track.linkid', 1)->save();
     $this->drupalGet('');
-    $this->assertNoRaw('"link_attribution":false', '[testGoogleAnalyticsTrackingCode]: Tracking code for Enhanced Link Attribution is enabled.');
+    $this->assertRaw('"link_attribution":true', '[testGoogleAnalyticsTrackingCode]: Tracking code for Enhanced Link Attribution is enabled.');
 
     // Test if track Enhanced Link Attribution is disabled.
     $this->config('google_analytics.settings')->set('track.linkid', 0)->save();
     $this->drupalGet('');
-    $this->assertRaw('"link_attribution":false', '[testGoogleAnalyticsTrackingCode]: Tracking code for Enhanced Link Attribution is not enabled.');
+    $this->assertNoRaw('"link_attribution":true', '[testGoogleAnalyticsTrackingCode]: Tracking code for Enhanced Link Attribution is not enabled.');
 
     // Test if tracking of url fragments is enabled.
     $this->config('google_analytics.settings')->set('track.urlfragments', 1)->save();
