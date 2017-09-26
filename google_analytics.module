@@ -289,7 +289,7 @@ function google_analytics_page_attachments(array &$page) {
     }
 
     // Add enhanced link attribution after 'create', but before 'pageview' send.
-    // @see https://support.google.com/analytics/answer/2558867
+    // @see https://developers.google.com/analytics/devguides/collection/gtagjs/enhanced-link-attribution
     if ($config->get('track.linkid')) {
       $arguments['link_attribution'] = TRUE;
     }
