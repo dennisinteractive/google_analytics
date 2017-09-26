@@ -244,15 +244,15 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     $this->drupalGet('');
     $this->assertNoRaw('"user_id":"', '[testGoogleAnalyticsTrackingCode]: Tracking code for User ID is disabled.');
 
-    // Test if track display features is enabled.
-    $this->config('google_analytics.settings')->set('track.displayfeatures', 1)->save();
-    $this->drupalGet('');
-    $this->assertNoRaw('"allow_display_features":false', '[testGoogleAnalyticsTrackingCode]: Tracking code for display features is enabled.');
-
     // Test if track display features is disabled.
     $this->config('google_analytics.settings')->set('track.displayfeatures', 0)->save();
     $this->drupalGet('');
     $this->assertRaw('"allow_display_features":false', '[testGoogleAnalyticsTrackingCode]: Tracking code for display features is not enabled.');
+
+    // Test if track display features is enabled.
+    $this->config('google_analytics.settings')->set('track.displayfeatures', 1)->save();
+    $this->drupalGet('');
+    $this->assertNoRaw('"allow_display_features":false', '[testGoogleAnalyticsTrackingCode]: Tracking code for display features is enabled.');
 
     // Test whether single domain tracking is active.
     $this->drupalGet('');
