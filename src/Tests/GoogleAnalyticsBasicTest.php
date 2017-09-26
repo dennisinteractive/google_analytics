@@ -224,16 +224,6 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     $this->drupalGet('');
     $this->assertNoRaw('"link_attribution":true', '[testGoogleAnalyticsTrackingCode]: Tracking code for Enhanced Link Attribution is not enabled.');
 
-    // Test if tracking of url fragments is enabled.
-    $this->config('google_analytics.settings')->set('track.urlfragments', 1)->save();
-    $this->drupalGet('');
-    $this->assertRaw('"page_path":location.pathname + location.search + location.hash});', '[testGoogleAnalyticsTrackingCode]: Tracking code for url fragments is enabled.');
-
-    // Test if tracking of url fragments is disabled.
-    $this->config('google_analytics.settings')->set('track.urlfragments', 0)->save();
-    $this->drupalGet('');
-    $this->assertNoRaw('"page_path":location.pathname + location.search + location.hash});', '[testGoogleAnalyticsTrackingCode]: Tracking code for url fragments is not enabled.');
-
     // Test if tracking of User ID is enabled.
     $this->config('google_analytics.settings')->set('track.userid', 1)->save();
     $this->drupalGet('');
@@ -253,6 +243,16 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     $this->config('google_analytics.settings')->set('track.displayfeatures', 1)->save();
     $this->drupalGet('');
     $this->assertNoRaw('"allow_display_features":false', '[testGoogleAnalyticsTrackingCode]: Tracking code for display features is enabled.');
+
+    // Test if tracking of url fragments is enabled.
+    $this->config('google_analytics.settings')->set('track.urlfragments', 1)->save();
+    $this->drupalGet('');
+    $this->assertRaw('"page_path":location.pathname + location.search + location.hash});', '[testGoogleAnalyticsTrackingCode]: Tracking code for url fragments is enabled.');
+
+    // Test if tracking of url fragments is disabled.
+    $this->config('google_analytics.settings')->set('track.urlfragments', 0)->save();
+    $this->drupalGet('');
+    $this->assertNoRaw('"page_path":location.pathname + location.search + location.hash});', '[testGoogleAnalyticsTrackingCode]: Tracking code for url fragments is not enabled.');
 
     // Test whether single domain tracking is active.
     $this->drupalGet('');
@@ -281,7 +281,7 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
       ->save();
     $this->drupalGet('');
     $this->assertRaw('gtag("config", "' . $ua_code . '", {"groups":"default","linker":', '[testGoogleAnalyticsTrackingCode]: "linker" has been found. Cross domain tracking is active.');
-    $this->assertRaw('gtag("config", "' . $ua_code . '", {"groups":"default","linker":{"domains":["www.example.com","www.example.net"]});', '[testGoogleAnalyticsTrackingCode]: "domains" has been found. Cross domain tracking is active.');
+    $this->assertRaw('gtag("config", "' . $ua_code . '", {"groups":"default","linker":{"domains":["www.example.com","www.example.net"]}});', '[testGoogleAnalyticsTrackingCode]: "domains" has been found. Cross domain tracking is active.');
     $this->assertRaw('"trackDomainMode":2,', '[testGoogleAnalyticsTrackingCode]: Domain mode value is of type integer.');
     $this->assertRaw('"trackCrossDomains":["www.example.com","www.example.net"]', '[testGoogleAnalyticsTrackingCode]: Cross domain tracking with www.example.com and www.example.net is active.');
     $this->config('google_analytics.settings')->set('domain_mode', 0)->save();
