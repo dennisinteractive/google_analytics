@@ -251,6 +251,7 @@ function google_analytics_page_attachments(array &$page) {
     $codesnippet_after = $config->get('codesnippet.after');
 
     // Build the arguments fields list.
+    // https://developers.google.com/analytics/devguides/collection/gtagjs/sending-data
     $arguments = ['groups' => 'default'];
     $arguments = array_merge($arguments, $codesnippet_create);
 
@@ -300,13 +301,12 @@ function google_analytics_page_attachments(array &$page) {
       $arguments['allow_display_features'] = FALSE;
     }
 
-    // Create a tracker.
-    // $script .= 'ga("create", ' . Json::encode($id) . ', ' . Json::encode($create_only_fields) . ');';
-    // @TODO: $create_only_fields is missing.
+    // Convert array to JSON format.
     $arguments_json = Json::encode($arguments);
     // Json::encode() cannot convert every data type properly.
     $arguments_json = str_replace('"PLACEHOLDER_URL_CUSTOM"', $url_custom, $arguments_json);
 
+    // Create a tracker.
     $script .= 'gtag("config", ' . Json::encode($id) . ', ' . $arguments_json . ');';
 
     // Prepare Adsense tracking.

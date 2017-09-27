@@ -868,26 +868,13 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
     // List of supported field names:
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#create
     $create_only_fields = [
-      'allowAnchor',
-      'alwaysSendReferrer',
-      'clientId',
-      'cookieName',
-      'cookieDomain',
-      'cookieExpires',
-      'legacyCookieDomain',
-      'legacyHistoryImport',
-      'sampleRate',
-      'siteSpeedSampleRate',
-      'storage',
-      'userId',
+      'client_id',
+      'cookie_name',
+      'cookie_domain',
+      'cookie_expires',
+      'user_id',
     ];
 
-    if ($name == 'name') {
-      return t('Create only field name %name is a disallowed field name. Changing the <em>Tracker Name</em> is currently not supported.', ['%name' => $name]);
-    }
-    if ($name == 'allowLinker') {
-      return t('Create only field name %name is a disallowed field name. Please select <em>Multiple top-level domains</em> under <em>What are you tracking</em> to enable cross domain tracking.', ['%name' => $name]);
-    }
     if (!in_array($name, $create_only_fields)) {
       return t('Create only field name %name is an unknown field name. Field names are case sensitive. Please see <a href=":url">create only fields</a> documentation for supported field names.', ['%name' => $name, ':url' => 'https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#create']);
     }
@@ -961,13 +948,13 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
 
       // Convert other known fields.
       switch ($name) {
+        // @TODO: Currently not in use in gtag API.
         case 'sampleRate':
           // Float types.
           settype($value, 'float');
           break;
 
-        case 'siteSpeedSampleRate':
-        case 'cookieExpires':
+        case 'cookie_expires':
           // Integer types.
           settype($value, 'integer');
           break;

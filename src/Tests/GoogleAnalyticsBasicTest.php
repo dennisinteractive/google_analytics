@@ -308,8 +308,6 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
       'cookie_domain' => 'foo.example.com',
       'cookie_name' => 'myNewName',
       'cookie_expires' => 20000,
-      //'allowAnchor' => TRUE,
-      //'sampleRate' => 4.3,
     ];
     $this->config('google_analytics.settings')
       ->set('codesnippet.create', $codesnippet_create)
