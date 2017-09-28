@@ -32,17 +32,17 @@
           else if (drupalSettings.google_analytics.trackDownload && Drupal.google_analytics.isDownload(this.href)) {
             // Download link clicked.
             gtag('event', Drupal.google_analytics.getDownloadExtension(this.href).toUpperCase(), {
-              'event_category': 'Downloads',
-              'event_label': Drupal.google_analytics.getPageUrl(this.href),
-              'transport_type': 'beacon'
+              event_category: 'Downloads',
+              event_label: Drupal.google_analytics.getPageUrl(this.href),
+              transport_type: 'beacon'
             });
           }
           else if (Drupal.google_analytics.isInternalSpecial(this.href)) {
             // Keep the internal URL for Google Analytics website overlay intact.
             // @todo: May require tracking ID
             gtag('config', {
-              'page_path': Drupal.google_analytics.getPageUrl(this.href),
-              'transport_type': 'beacon'
+              page_path: Drupal.google_analytics.getPageUrl(this.href),
+              transport_type: 'beacon'
             });
           }
         }
@@ -50,18 +50,18 @@
           if (drupalSettings.google_analytics.trackMailto && $(this).is("a[href^='mailto:'],area[href^='mailto:']")) {
             // Mailto link clicked.
             gtag('event', 'Click', {
-              'event_category': 'Mails',
-              'event_label': this.href.substring(7),
-              'transport_type': 'beacon'
+              event_category: 'Mails',
+              event_label: this.href.substring(7),
+              transport_type: 'beacon'
             });
           }
           else if (drupalSettings.google_analytics.trackOutbound && this.href.match(/^\w+:\/\//i)) {
             if (drupalSettings.google_analytics.trackDomainMode !== 2 || (drupalSettings.google_analytics.trackDomainMode === 2 && !Drupal.google_analytics.isCrossDomain(this.hostname, drupalSettings.google_analytics.trackCrossDomains))) {
               // External link clicked / No top-level cross domain clicked.
               gtag('event', 'Click', {
-                'event_category': 'Outbound links',
-                'event_label': this.href,
-                'transport_type': 'beacon'
+                event_category: 'Outbound links',
+                event_label: this.href,
+                transport_type: 'beacon'
               });
             }
           }
@@ -73,7 +73,7 @@
     if (drupalSettings.google_analytics.trackUrlFragments) {
       window.onhashchange = function () {
         gtag('config', {
-          'page_path': location.pathname + location.search + location.hash
+          page_path: location.pathname + location.search + location.hash
         });
       };
     }
@@ -85,7 +85,7 @@
         var href = $.colorbox.element().attr('href');
         if (href) {
           gtag('config', {
-            'page_path': Drupal.google_analytics.getPageUrl(href)
+            page_path: Drupal.google_analytics.getPageUrl(href)
           });
         }
       });

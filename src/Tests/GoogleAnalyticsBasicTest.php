@@ -161,18 +161,6 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     $this->config('google_analytics.settings')->set('visibility.request_path_mode', 0)->save();
     // Enable tracking code for all user roles.
     $this->config('google_analytics.settings')->set('visibility.user_role_roles', [])->save();
-
-    $base_path = base_path();
-
-    // Test whether 403 forbidden tracking code is shown if user has no access.
-    $this->drupalGet('admin');
-    $this->assertResponse(403);
-    $this->assertRaw($base_path . '403.html', '[testGoogleAnalyticsPageVisibility]: 403 Forbidden tracking code shown if user has no access.');
-
-    // Test whether 404 not found tracking code is shown on non-existent pages.
-    $this->drupalGet($this->randomMachineName(64));
-    $this->assertResponse(404);
-    $this->assertRaw($base_path . '404.html', '[testGoogleAnalyticsPageVisibility]: 404 Not Found tracking code shown on non-existent page.');
   }
 
   /**
@@ -308,16 +296,16 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
       'cookie_domain' => 'foo.example.com',
       'cookie_name' => 'myNewName',
       'cookie_expires' => 20000,
+      'sample_rate' => 4.3,
     ];
     $this->config('google_analytics.settings')
       ->set('codesnippet.create', $codesnippet_create)
-      ->set('codesnippet.before', 'gtag("config", {"currency":"USD"});')
+      ->set('codesnippet.before', 'gtag("set", {"currency":"USD"});')
       ->set('codesnippet.after', 'gtag("config", "UA-123456-3", {"groups":"default"});if(1 == 1 && 2 < 3 && 2 > 1){console.log("Google Analytics: Custom condition works.");}')
       ->save();
     $this->drupalGet('');
-    //$this->assertRaw('gtag("config", "' . $ua_code . '", {"groups":"default","cookie_domain":"foo.example.com","cookie_name":"myNewName","cookie_expires":20000,"allowAnchor":true,"sampleRate":4.3});', '[testGoogleAnalyticsTrackingCode]: Config parameters have been found.');
-    $this->assertRaw('gtag("config", "' . $ua_code . '", {"groups":"default","cookie_domain":"foo.example.com","cookie_name":"myNewName","cookie_expires":20000});', '[testGoogleAnalyticsTrackingCode]: Config parameters have been found.');
-    $this->assertRaw('gtag("config", {"currency":"USD"});', '[testGoogleAnalyticsTrackingCode]: Before codesnippet has been found.');
+    $this->assertRaw('gtag("config", "' . $ua_code . '", {"groups":"default","cookie_domain":"foo.example.com","cookie_name":"myNewName","cookie_expires":20000,"sample_rate":4.3});', '[testGoogleAnalyticsTrackingCode]: Config parameters have been found.');
+    $this->assertRaw('gtag("set", {"currency":"USD"});', '[testGoogleAnalyticsTrackingCode]: Before codesnippet has been found.');
     $this->assertRaw('gtag("config", "UA-123456-3", {"groups":"default"});', '[testGoogleAnalyticsTrackingCode]: After codesnippet custom UA code has been found.');
     $this->assertRaw('if(1 == 1 && 2 < 3 && 2 > 1){console.log("Google Analytics: Custom condition works.");}', '[testGoogleAnalyticsTrackingCode]: JavaScript code is not HTML escaped.');
   }

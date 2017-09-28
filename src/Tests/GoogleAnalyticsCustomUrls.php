@@ -40,7 +40,7 @@ class GoogleAnalyticsCustomUrls extends WebTestBase {
   /**
    * Tests if user password page urls are overridden.
    */
-  public function testGoogleAnalyticsUserPasswordPage() {
+  public function testGoogleAnalyticsCustomUrls() {
     $base_path = base_path();
     $ua_code = 'UA-123456-1';
     $this->config('google_analytics.settings')
@@ -57,6 +57,16 @@ class GoogleAnalyticsCustomUrls extends WebTestBase {
 
     $this->drupalGet('user/password');
     $this->assertNoRaw('"page_path":"' . $base_path . 'user/password"});', '[testGoogleAnalyticsCustomUrls]: Custom url not set.');
+
+    // Test whether 403 forbidden tracking code is shown if user has no access.
+    $this->drupalGet('admin');
+    $this->assertResponse(403);
+    $this->assertRaw($base_path . '403.html', '[testGoogleAnalyticsCustomUrls]: 403 Forbidden tracking code shown if user has no access.');
+
+    // Test whether 404 not found tracking code is shown on non-existent pages.
+    $this->drupalGet($this->randomMachineName(64));
+    $this->assertResponse(404);
+    $this->assertRaw($base_path . '404.html', '[testGoogleAnalyticsCustomUrls]: 404 Not Found tracking code shown on non-existent page.');
   }
 
 }

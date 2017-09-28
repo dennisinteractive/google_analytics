@@ -36,9 +36,9 @@
             // Download link clicked.
             console.info("Download url '%s' has been found. Tracked download as extension '%s'.", Drupal.google_analytics.getPageUrl(this.href), Drupal.google_analytics.getDownloadExtension(this.href).toUpperCase());
             gtag('event', Drupal.google_analytics.getDownloadExtension(this.href).toUpperCase(), {
-              'event_category': 'Downloads',
-              'event_label': Drupal.google_analytics.getPageUrl(this.href),
-              'transport_type': 'beacon'
+              event_category: 'Downloads',
+              event_label: Drupal.google_analytics.getPageUrl(this.href),
+              transport_type: 'beacon'
             });
           }
           else if (Drupal.google_analytics.isInternalSpecial(this.href)) {
@@ -46,8 +46,8 @@
             console.info("Click on internal special link '%s' has been tracked.", Drupal.google_analytics.getPageUrl(this.href));
             // @todo: May require tracking ID
             gtag('config', {
-              'page_path': Drupal.google_analytics.getPageUrl(this.href),
-              'transport_type': 'beacon'
+              page_path: Drupal.google_analytics.getPageUrl(this.href),
+              transport_type: 'beacon'
             });
           }
           else {
@@ -60,9 +60,9 @@
             // Mailto link clicked.
             console.info("Click on e-mail '%s' has been tracked.", this.href.substring(7));
             gtag('event', 'Click', {
-              'event_category': 'Mails',
-              'event_label': this.href.substring(7),
-              'transport_type': 'beacon'
+              event_category: 'Mails',
+              event_label: this.href.substring(7),
+              transport_type: 'beacon'
             });
           }
           else if (drupalSettings.google_analytics.trackOutbound && this.href.match(/^\w+:\/\//i)) {
@@ -70,9 +70,9 @@
               // External link clicked / No top-level cross domain clicked.
               console.info("Outbound link '%s' has been tracked.", this.href);
               gtag('event', 'Click', {
-                'event_category': 'Outbound links',
-                'event_label': this.href,
-                'transport_type': 'beacon'
+                event_category: 'Outbound links',
+                event_label: this.href,
+                transport_type: 'beacon'
               });
             }
             else {
@@ -90,7 +90,7 @@
       window.onhashchange = function () {
         console.info("Track URL '%s' as pageview. Hash '%s' has changed.", location.pathname + location.search + location.hash, location.hash);
         gtag('config', {
-          'page_path': location.pathname + location.search + location.hash
+          page_path: location.pathname + location.search + location.hash
         });
       };
     }
@@ -103,7 +103,7 @@
         if (href) {
           console.info("Colorbox transition to url '%s' has been tracked.", Drupal.google_analytics.getPageUrl(href));
           gtag('config', {
-            'page_path': Drupal.google_analytics.getPageUrl(href)
+            page_path: Drupal.google_analytics.getPageUrl(href)
           });
         }
       });

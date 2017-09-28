@@ -872,6 +872,8 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       'cookie_name',
       'cookie_domain',
       'cookie_expires',
+      'sample_rate',
+      'site_speed_sample_rate',
       'user_id',
     ];
 
@@ -948,8 +950,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
 
       // Convert other known fields.
       switch ($name) {
-        // @TODO: Currently not in use in gtag API.
-        case 'sampleRate':
+        case 'sample_rate':
           // Float types.
           settype($value, 'float');
           break;
