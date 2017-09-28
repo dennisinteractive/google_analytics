@@ -333,8 +333,7 @@ function google_analytics_page_attachments(array &$page) {
       $script = $googleanalytics_adsense_script . $script;
     }
 
-
-    // Append tracking library directly after script code.
+    // Prepend tracking library directly before script code.
     if ($debug) {
       // Debug script has highest priority to load.
       // @FIXME: Cannot find the debug URL!???
