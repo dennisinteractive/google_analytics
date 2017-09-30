@@ -369,6 +369,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       '#type' => 'table',
       '#header' => [
         ['data' => $this->t('Index')],
+        ['data' => $this->t('Name')],
         ['data' => $this->t('Value')],
       ],
     ];
@@ -385,6 +386,14 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
         '#disabled' => TRUE,
         '#size' => ($limit == 200) ? 3 : 2,
         '#title' => $this->t('Custom dimension index #@index', ['@index' => $i]),
+        '#title_display' => 'invisible',
+        '#type' => 'textfield',
+      ];
+      $form['google_analytics_custom_dimension']['indexes'][$i]['name'] = [
+        '#default_value' => isset($google_analytics_custom_dimension[$i]['name']) ? $google_analytics_custom_dimension[$i]['name'] : '',
+        '#description' => $this->t('The custom dimension name.'),
+        '#maxlength' => 255,
+        '#title' => $this->t('Custom dimension name #@index', ['@index' => $i]),
         '#title_display' => 'invisible',
         '#type' => 'textfield',
       ];
@@ -426,6 +435,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       '#type' => 'table',
       '#header' => [
         ['data' => $this->t('Index')],
+        ['data' => $this->t('Name')],
         ['data' => $this->t('Value')],
       ],
     ];
@@ -441,6 +451,14 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
         '#disabled' => TRUE,
         '#size' => ($limit == 200) ? 3 : 2,
         '#title' => $this->t('Custom metric index #@index', ['@index' => $i]),
+        '#title_display' => 'invisible',
+        '#type' => 'textfield',
+      ];
+      $form['google_analytics_custom_metric']['indexes'][$i]['name'] = [
+        '#default_value' => isset($google_analytics_custom_metric[$i]['name']) ? $google_analytics_custom_metric[$i]['name'] : '',
+        '#description' => $this->t('The custom metric name.'),
+        '#maxlength' => 255,
+        '#title' => $this->t('Custom metric name #@index', ['@index' => $i]),
         '#title_display' => 'invisible',
         '#type' => 'textfield',
       ];

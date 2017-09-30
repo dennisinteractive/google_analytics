@@ -199,7 +199,8 @@ function google_analytics_page_attachments(array &$page) {
     }
 
     // Add custom dimensions and metrics.
-    $custom_var = '';
+    $custom_map = [];
+    $custom_vars = [];
     foreach (['dimension', 'metric'] as $google_analytics_custom_type) {
       $google_analytics_custom_vars = $config->get('custom.' . $google_analytics_custom_type);
       // Are there dimensions or metrics configured?
@@ -217,7 +218,7 @@ function google_analytics_page_attachments(array &$page) {
           $google_analytics_custom_var['value'] = \Drupal::token()->replace($google_analytics_custom_var['value'], $types, ['clear' => TRUE]);
 
           // Suppress empty values.
-          if (!Unicode::strlen(trim($google_analytics_custom_var['value']))) {
+          if (!Unicode::strlen(trim($google_analytics_custom_var['name'])) || !Unicode::strlen(trim($google_analytics_custom_var['value']))) {
             continue;
           }
 
@@ -234,12 +235,19 @@ function google_analytics_page_attachments(array &$page) {
             settype($google_analytics_custom_var['value'], 'float');
           };
 
-          // Add variables to tracker.
-          // @FIXME
-          //$custom_var .= 'ga("set", ' . Json::encode($google_analytics_custom_type . $google_analytics_custom_var['index']) . ', ' . Json::encode($google_analytics_custom_var['value']) . ');';
+          // Build the arrays of values.
+          $custom_map['custom_map'][$google_analytics_custom_type . $google_analytics_custom_var['index']] = $google_analytics_custom_var['name'];
+          $custom_vars[$google_analytics_custom_var['name']] = $google_analytics_custom_var['value'];
         }
       }
     }
+
+    $custom_var = '';
+    if (!empty($custom_map)) {
+      // Add custom variables to tracker.
+      $custom_var .= 'gtag("config", ' . Json::encode($id) . ', ' . Json::encode($custom_map) . ');';
+      $custom_var .= 'gtag("event", "custom", ' . Json::encode($custom_vars) . ');';
+    };
 
     // Build tracker code.
     $script = 'window.dataLayer = window.dataLayer || [];';

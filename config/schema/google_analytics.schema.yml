@@ -102,6 +102,9 @@ google_analytics.settings:
               index:
                 type: integer
                 label: Index
+              name:
+                type: string
+                label: Name
               value:
                 type: string
                 label: Value
@@ -115,6 +118,9 @@ google_analytics.settings:
               index:
                 type: integer
                 label: Index
+              name:
+                type: string
+                label: Name
               value:
                 type: string
                 label: Value
