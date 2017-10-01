@@ -84,8 +84,10 @@ $(document).ready(function() {
   console.groupEnd();
 
   console.group("Test 'getPageUrl':");
-  Drupal.googleanalytics.test.assertSame(base_path, Drupal.googleanalytics.getPageUrl(base_url + Drupal.settings.basePath + 'node/1'), "Absolute internal URL '" +  Drupal.settings.basePath + "node/1' has been extracted from full qualified url '" + base_url + base_path + "'.");
-  Drupal.googleanalytics.test.assertSame(base_path, Drupal.googleanalytics.getPageUrl(Drupal.settings.basePath + 'node/1'), "Absolute internal URL '" +  Drupal.settings.basePath + "node/1' has been extracted from absolute url '" +  base_path + "'.");
+  Drupal.google_analytics.test.assertSame(base_path, Drupal.google_analytics.getPageUrl(window.location.href), "Absolute internal URL '" + base_path + "' has been extracted from full qualified url '" + window.location.href + "'.");
+  Drupal.google_analytics.test.assertSame(base_path, Drupal.google_analytics.getPageUrl(base_path), "Absolute internal URL '" + base_path + "' has been extracted from absolute url '" + base_path + "'.");
+  //Drupal.googleanalytics.test.assertSame(base_path, Drupal.googleanalytics.getPageUrl(base_url + Drupal.settings.basePath + 'node/1'), "Absolute internal URL '" +  Drupal.settings.basePath + "node/1' has been extracted from full qualified url '" + base_url + base_path + "'.");
+  //Drupal.googleanalytics.test.assertSame(base_path, Drupal.googleanalytics.getPageUrl(Drupal.settings.basePath + 'node/1'), "Absolute internal URL '" +  Drupal.settings.basePath + "node/1' has been extracted from absolute url '" +  base_path + "'.");
   Drupal.googleanalytics.test.assertSame('http://example.com/node/2', Drupal.googleanalytics.getPageUrl('http://example.com/node/2'), "Full qualified external url 'http://example.com/node/2' has been extracted.");
   Drupal.googleanalytics.test.assertSame('//example.com/node/2', Drupal.googleanalytics.getPageUrl('//example.com/node/2'), "Full qualified external url '//example.com/node/2' has been extracted.");
   console.groupEnd();
