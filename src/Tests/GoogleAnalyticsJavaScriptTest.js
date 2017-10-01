@@ -90,8 +90,10 @@
   console.groupEnd();
 
   console.group("Test 'getPageUrl':");
-  Drupal.google_analytics.test.assertSame(base_path, Drupal.google_analytics.getPageUrl(base_url + drupalSettings.path.baseUrl + 'node/1'), "Absolute internal URL '" + drupalSettings.path.baseUrl + "node/1' has been extracted from full qualified url '" + base_url + base_path + "'.");
-  Drupal.google_analytics.test.assertSame(base_path, Drupal.google_analytics.getPageUrl(drupalSettings.path.baseUrl + 'node/1'), "Absolute internal URL '" + drupalSettings.path.baseUrl + "node/1' has been extracted from absolute url '" + base_path + "'.");
+  Drupal.google_analytics.test.assertSame(base_path, Drupal.google_analytics.getPageUrl(window.location.href), "Absolute internal URL '" + base_path + "' has been extracted from full qualified url '" + window.location.href + "'.");
+  Drupal.google_analytics.test.assertSame(base_path, Drupal.google_analytics.getPageUrl(base_path), "Absolute internal URL '" + base_path + "' has been extracted from absolute url '" + base_path + "'.");
+  //Drupal.google_analytics.test.assertSame(base_path, Drupal.google_analytics.getPageUrl(base_url + drupalSettings.path.baseUrl + 'node/1'), "Absolute internal URL '" + drupalSettings.path.baseUrl + "node/1' has been extracted from full qualified url '" + base_url + base_path + "'.");
+  //Drupal.google_analytics.test.assertSame(base_path, Drupal.google_analytics.getPageUrl(drupalSettings.path.baseUrl + 'node/1'), "Absolute internal URL '" + drupalSettings.path.baseUrl + "node/1' has been extracted from absolute url '" + base_path + "'.");
   Drupal.google_analytics.test.assertSame('http://example.com/node/2', Drupal.google_analytics.getPageUrl('http://example.com/node/2'), "Full qualified external url 'http://example.com/node/2' has been extracted.");
   Drupal.google_analytics.test.assertSame('//example.com/node/2', Drupal.google_analytics.getPageUrl('//example.com/node/2'), "Full qualified external url '//example.com/node/2' has been extracted.");
   console.groupEnd();
