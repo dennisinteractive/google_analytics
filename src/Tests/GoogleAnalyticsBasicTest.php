@@ -192,6 +192,7 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     $this->drupalGet('');
     $this->assertRaw('<script async src="https://www.googletagmanager.com/gtag/js?' . $ua_code . '"></script>');
     $this->assertRaw('window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments)};gtag("js", new Date());');
+    $this->assertRaw('"google_analytics":{"account":"' . $ua_code . '"');
 
     // Enable anonymizing of IP addresses.
     $this->config('google_analytics.settings')->set('privacy.anonymizeip', 1)->save();
