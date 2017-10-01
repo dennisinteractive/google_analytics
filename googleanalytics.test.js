@@ -107,9 +107,9 @@ $(document).ready(function() {
   if (Drupal.settings.googleanalytics.trackCrossDomains) {
     console.dir(Drupal.settings.googleanalytics.trackCrossDomains);
     Drupal.googleanalytics.test.assertTrue(Drupal.googleanalytics.isCrossDomain('example.com', Drupal.settings.googleanalytics.trackCrossDomains), "URL 'example.com' has been found in cross domain list.");
-    Drupal.googleanalytics.test.assertTrue(Drupal.googleanalytics.isCrossDomain('example.net', Drupal.settings.googleanalytics.trackCrossDomains), "URL 'example.com' has been found in cross domain list.");
+    Drupal.googleanalytics.test.assertTrue(Drupal.googleanalytics.isCrossDomain('example.net', Drupal.settings.googleanalytics.trackCrossDomains), "URL 'example.net' has been found in cross domain list.");
     Drupal.googleanalytics.test.assertFalse(Drupal.googleanalytics.isCrossDomain('www.example.com', Drupal.settings.googleanalytics.trackCrossDomains), "URL 'www.example.com' not found in cross domain list.");
-    Drupal.googleanalytics.test.assertFalse(Drupal.googleanalytics.isCrossDomain('www.example.net', Drupal.settings.googleanalytics.trackCrossDomains), "URL 'www.example.com' not found in cross domain list.");
+    Drupal.googleanalytics.test.assertFalse(Drupal.googleanalytics.isCrossDomain('www.example.net', Drupal.settings.googleanalytics.trackCrossDomains), "URL 'www.example.net' not found in cross domain list.");
   }
   else {
     console.warn('Cross domain tracking is not enabled. Tests skipped.');
