@@ -133,7 +133,7 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
 
     // Check tracking code visibility.
     $this->drupalGet('');
-    $this->assertRaw($ua_code, '[testGoogleAnalyticsPageVisibility]: Tracking code is displayed for authenticated users.');
+    $this->assertRaw('gtag("config", "'. $ua_code . '"', '[testGoogleAnalyticsPageVisibility]: Tracking code is displayed for authenticated users.');
 
     // Test whether tracking code is not included on pages to omit.
     $this->drupalGet('admin');
@@ -190,7 +190,8 @@ class GoogleAnalyticsBasicTest extends WebTestBase {
     // Test whether tracking code uses latest JS.
     $this->config('google_analytics.settings')->set('cache', 0)->save();
     $this->drupalGet('');
-    $this->assertRaw('https://www.googletagmanager.com/gtag/js', '[testGoogleAnalyticsTrackingCode]: Latest tracking code used.');
+    $this->assertRaw('<script async src="https://www.googletagmanager.com/gtag/js?' . $ua_code . '"></script>');
+    $this->assertRaw('window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments)};gtag("js", new Date());');
 
     // Enable anonymizing of IP addresses.
     $this->config('google_analytics.settings')->set('privacy.anonymizeip', 1)->save();
