@@ -93,7 +93,7 @@ function google_analytics_page_attachments(array &$page) {
     $url_custom = '';
 
     // Add link tracking.
-    $link_settings = [];
+    $link_settings = ['account' => $id];
     if ($track_outbound = $config->get('track.outbound')) {
       $link_settings['trackOutbound'] = $track_outbound;
     }

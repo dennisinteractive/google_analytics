@@ -45,7 +45,7 @@
             // Keep the internal URL for Google Analytics website overlay intact.
             console.info("Click on internal special link '%s' has been tracked.", Drupal.google_analytics.getPageUrl(this.href));
             // @todo: May require tracking ID
-            gtag('config', {
+            gtag('config', drupalSettings.google_analytics.account, {
               page_path: Drupal.google_analytics.getPageUrl(this.href),
               transport_type: 'beacon'
             });
@@ -89,7 +89,7 @@
     if (drupalSettings.google_analytics.trackUrlFragments) {
       window.onhashchange = function () {
         console.info("Track URL '%s' as pageview. Hash '%s' has changed.", location.pathname + location.search + location.hash, location.hash);
-        gtag('config', {
+        gtag('config', drupalSettings.google_analytics.account, {
           page_path: location.pathname + location.search + location.hash
         });
       };
@@ -102,7 +102,7 @@
         var href = $.colorbox.element().attr('href');
         if (href) {
           console.info("Colorbox transition to url '%s' has been tracked.", Drupal.google_analytics.getPageUrl(href));
-          gtag('config', {
+          gtag('config', drupalSettings.google_analytics.account, {
             page_path: Drupal.google_analytics.getPageUrl(href)
           });
         }
