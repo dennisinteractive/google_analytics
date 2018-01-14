@@ -712,7 +712,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
     $tokens = \Drupal::token()->scan($value);
     $invalid_tokens = static::getForbiddenTokens($tokens);
     if ($invalid_tokens) {
-      $form_state->setError($element, $this->t('The %element-title is using the following forbidden tokens with personal identifying information: @invalid-tokens.', ['%element-title' => $element['#title'], '@invalid-tokens' => implode(', ', $invalid_tokens)]));
+      $form_state->setError($element, t('The %element-title is using the following forbidden tokens with personal identifying information: @invalid-tokens.', ['%element-title' => $element['#title'], '@invalid-tokens' => implode(', ', $invalid_tokens)]));
     }
 
     return $element;
