@@ -59,9 +59,9 @@ class GoogleAnalyticsUninstallTest extends WebTestBase {
     // Uninstall the module.
     $edit = [];
     $edit['uninstall[google_analytics]'] = TRUE;
-    $this->drupalPostForm('admin/modules/uninstall', $edit, t('Uninstall'));
+    $this->drupalPostForm('admin/modules/uninstall', $edit, $this->t('Uninstall'));
     $this->assertNoText(\Drupal::translation()->translate('Configuration deletions'), 'No configuration deletions listed on the module install confirmation page.');
-    $this->drupalPostForm(NULL, NULL, t('Uninstall'));
+    $this->drupalPostForm(NULL, NULL, $this->t('Uninstall'));
     $this->assertText(t('The selected modules have been uninstalled.'), 'Modules status has been updated.');
 
     // Test if the directory and all files have been removed.
