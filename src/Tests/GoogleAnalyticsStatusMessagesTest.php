@@ -48,7 +48,7 @@ class GoogleAnalyticsStatusMessagesTest extends WebTestBase {
     $this->assertRaw('ga("send", "event", "Messages", "Error message", "Password field is required.");', '[testGoogleAnalyticsStatusMessages]: Event message "Password field is required." is shown.');
 
     // Testing this drupal_set_message() requires an extra test module.
-    $this->drupalGet('google-analytics-test/drupal-set-message');
+    $this->drupalGet('google-analytics-test/drupal-messenger-add-message');
     $this->assertNoRaw('ga("send", "event", "Messages", "Status message", "Example status message.");', '[testGoogleAnalyticsStatusMessages]: Example status message is not enabled for tracking.');
     $this->assertNoRaw('ga("send", "event", "Messages", "Warning message", "Example warning message.");', '[testGoogleAnalyticsStatusMessages]: Example warning message is not enabled for tracking.');
     $this->assertRaw('ga("send", "event", "Messages", "Error message", "Example error message.");', '[testGoogleAnalyticsStatusMessages]: Example error message is shown.');
@@ -57,7 +57,7 @@ class GoogleAnalyticsStatusMessagesTest extends WebTestBase {
     // Enable logging of status, warnings and errors.
     $this->config('google_analytics.settings')->set('track.messages', ['status' => 'status', 'warning' => 'warning', 'error' => 'error'])->save();
 
-    $this->drupalGet('google-analytics-test/drupal-set-message');
+    $this->drupalGet('google-analytics-test/drupal-messenger-add-message');
     $this->assertRaw('ga("send", "event", "Messages", "Status message", "Example status message.");', '[testGoogleAnalyticsStatusMessages]: Example status message is enabled for tracking.');
     $this->assertRaw('ga("send", "event", "Messages", "Warning message", "Example warning message.");', '[testGoogleAnalyticsStatusMessages]: Example warning message is enabled for tracking.');
     $this->assertRaw('ga("send", "event", "Messages", "Error message", "Example error message.");', '[testGoogleAnalyticsStatusMessages]: Example error message is shown.');
