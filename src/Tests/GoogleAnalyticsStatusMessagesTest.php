@@ -48,7 +48,7 @@ class GoogleAnalyticsStatusMessagesTest extends WebTestBase {
     $this->assertRaw('gtag("event", "Error message", {"event_category":"Messages","event_label":"Password field is required."});', '[testGoogleAnalyticsStatusMessages]: Event message "Password field is required." is shown.');
 
     // Testing this drupal_set_message() requires an extra test module.
-    $this->drupalGet('google-analytics-test/drupal-set-message');
+    $this->drupalGet('google-analytics-test/drupal-messenger-add-message');
     $this->assertNoRaw('gtag("event", "Status message", {"event_category":"Messages","event_label":"Example status message."});', '[testGoogleAnalyticsStatusMessages]: Example status message is not enabled for tracking.');
     $this->assertNoRaw('gtag("event", "Warning message", {"event_category":"Messages","event_label":"Example warning message."});', '[testGoogleAnalyticsStatusMessages]: Example warning message is not enabled for tracking.');
     $this->assertRaw('gtag("event", "Error message", {"event_category":"Messages","event_label":"Example error message."});', '[testGoogleAnalyticsStatusMessages]: Example error message is shown.');
@@ -57,7 +57,7 @@ class GoogleAnalyticsStatusMessagesTest extends WebTestBase {
     // Enable logging of status, warnings and errors.
     $this->config('google_analytics.settings')->set('track.messages', ['status' => 'status', 'warning' => 'warning', 'error' => 'error'])->save();
 
-    $this->drupalGet('google-analytics-test/drupal-set-message');
+    $this->drupalGet('google-analytics-test/drupal-messenger-add-message');
     $this->assertRaw('gtag("event", "Status message", {"event_category":"Messages","event_label":"Example status message."});', '[testGoogleAnalyticsStatusMessages]: Example status message is enabled for tracking.');
     $this->assertRaw('gtag("event", "Warning message", {"event_category":"Messages","event_label":"Example warning message."});', '[testGoogleAnalyticsStatusMessages]: Example warning message is enabled for tracking.');
     $this->assertRaw('gtag("event", "Error message", {"event_category":"Messages","event_label":"Example error message."});', '[testGoogleAnalyticsStatusMessages]: Example error message is shown.');
