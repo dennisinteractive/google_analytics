@@ -54,7 +54,7 @@ class GoogleAnalyticsPhpFilterTest extends WebTestBase {
     $edit['google_analytics_account'] = $ua_code;
     $edit['google_analytics_visibility_request_path_mode'] = 2;
     $edit['google_analytics_visibility_request_path_pages'] = '<?php return 0; ?>';
-    $this->drupalPostForm('admin/config/system/google-analytics', $edit, $this->t('Save configuration'));
+    $this->drupalPostForm('admin/config/system/google-analytics', $edit, t('Save configuration'));
 
     // Compare saved setting with posted setting.
     $google_analytics_pages = \Drupal::config('google_analytics.settings')->get('visibility.request_path_pages');
@@ -89,7 +89,7 @@ class GoogleAnalyticsPhpFilterTest extends WebTestBase {
 
     $edit = [];
     $edit['google_analytics_account'] = $ua_code;
-    $this->drupalPostForm('admin/config/system/google-analytics', $edit, $this->t('Save configuration'));
+    $this->drupalPostForm('admin/config/system/google-analytics', $edit, t('Save configuration'));
 
     // Compare saved setting with posted setting.
     $google_analytics_visibility_pages = \Drupal::config('google_analytics.settings')->get('visibility.request_path_mode');
