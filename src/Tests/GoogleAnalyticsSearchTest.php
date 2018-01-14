@@ -72,28 +72,28 @@ class GoogleAnalyticsSearchTest extends WebTestBase {
     $edit['body[0][value]'] = 'This test content contains ' . $search['keys'] . ' string.';
 
     // Fire a search, it's expected to get 0 results.
-    $this->drupalPostForm('search/node', $search, t('Search'));
+    $this->drupalPostForm('search/node', $search, $this->t('Search'));
     $this->assertRaw('gtag("config", ' . Json::encode($ua_code) . ', {"groups":"default","page_path":(window.google_analytics_search_results) ?', '[testGoogleAnalyticsSearch]: Search results tracker is displayed.');
     $this->assertRaw('window.google_analytics_search_results = 0;', '[testGoogleAnalyticsSearch]: Search yielded no results.');
 
     // Save the node.
-    $this->drupalPostForm('node/add/page', $edit, t('Save'));
+    $this->drupalPostForm('node/add/page', $edit, $this->t('Save'));
     $this->assertText(t('@type @title has been created.', ['@type' => 'Basic page', '@title' => $edit['title[0][value]']]), 'Basic page created.');
 
     // Index the node or it cannot found.
     $this->cronRun();
 
-    $this->drupalPostForm('search/node', $search, t('Search'));
+    $this->drupalPostForm('search/node', $search, $this->t('Search'));
     $this->assertRaw('gtag("config", ' . Json::encode($ua_code) . ', {"groups":"default","page_path":(window.google_analytics_search_results) ?', '[testGoogleAnalyticsSearch]: Search results tracker is displayed.');
     $this->assertRaw('window.google_analytics_search_results = 1;', '[testGoogleAnalyticsSearch]: One search result found.');
 
-    $this->drupalPostForm('node/add/page', $edit, t('Save'));
+    $this->drupalPostForm('node/add/page', $edit, $this->t('Save'));
     $this->assertText(t('@type @title has been created.', ['@type' => 'Basic page', '@title' => $edit['title[0][value]']]), 'Basic page created.');
 
     // Index the node or it cannot found.
     $this->cronRun();
 
-    $this->drupalPostForm('search/node', $search, t('Search'));
+    $this->drupalPostForm('search/node', $search, $this->t('Search'));
     $this->assertRaw('gtag("config", ' . Json::encode($ua_code) . ', {"groups":"default","page_path":(window.google_analytics_search_results) ?', '[testGoogleAnalyticsSearch]: Search results tracker is displayed.');
     $this->assertRaw('window.google_analytics_search_results = 2;', '[testGoogleAnalyticsSearch]: Two search results found.');
   }
