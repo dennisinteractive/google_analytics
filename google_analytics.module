@@ -142,7 +142,7 @@ function google_analytics_page_attachments(array &$page) {
         'error' => t('Error message'),
       ];
 
-      foreach (\Drupal::messenger()->all(NULL, FALSE) as $type => $messages) {
+      foreach (drupal_get_messages(NULL, FALSE) as $type => $messages) {
         // Track only the selected message types.
         if (in_array($type, $message_types)) {
           foreach ($messages as $message) {
