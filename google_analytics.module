@@ -345,7 +345,7 @@ function google_analytics_page_attachments(array &$page) {
     if ($debug) {
       // Debug script has highest priority to load.
       // @FIXME: Cannot find the debug URL!???
-      $library = 'https://www.googletagmanager.com/gtag/js?' . $id;
+      $library = 'https://www.googletagmanager.com/gtag/js?id=' . $id;
     }
     elseif ($config->get('cache') && _google_analytics_cache('https://www.googletagmanager.com/gtag/js')) {
       // Should a local cached copy of gtag.js be used?
@@ -354,7 +354,7 @@ function google_analytics_page_attachments(array &$page) {
     }
     else {
       // Fallback to default.
-      $library = 'https://www.googletagmanager.com/gtag/js?' . $id;
+      $library = 'https://www.googletagmanager.com/gtag/js?id=' . $id;
     }
 
     $page['#attached']['html_head'][] = [
