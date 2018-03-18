@@ -607,8 +607,8 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
     }
 
     // Verify that every path is prefixed with a slash, but don't check PHP
-    // code snippets.
-    if ($form_state->getValue('google_analytics_visibility_request_path_mode') != 2) {
+    // code snippets and do not check for slashes if no paths configured.
+    if ($form_state->getValue('google_analytics_visibility_request_path_mode') != 2 && !empty($form_state->getValue('google_analytics_visibility_request_path_pages'))) {
       $pages = preg_split('/(\r\n?|\n)/', $form_state->getValue('google_analytics_visibility_request_path_pages'));
       foreach ($pages as $page) {
         if (strpos($page, '/') !== 0 && $page !== '<front>') {
