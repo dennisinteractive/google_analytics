@@ -213,7 +213,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Users'),
       '#group' => 'tracking_scope',
     ];
-    $t_permission = ['%permission' => $this->t('opt-in or out of tracking')];
+    $t_permission = ['%permission' => $this->t('Opt-in or out of tracking')];
     $form['tracking']['user_visibility_settings']['google_analytics_visibility_user_account_mode'] = [
       '#type' => 'radios',
       '#title' => $this->t('Allow users to customize tracking on their account page'),
