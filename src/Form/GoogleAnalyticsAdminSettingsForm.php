@@ -818,7 +818,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
     $values = static::extractCreateFieldValues($element['#value']);
 
     if (!is_array($values)) {
-      $form_state->setError($element, $this->t('The %element-title field contains invalid input.', ['%element-title' => $element['#title']]));
+      $form_state->setError($element, t('The %element-title field contains invalid input.', ['%element-title' => $element['#title']]));
     }
     else {
       // Check that name and value are valid for the field type.
@@ -896,7 +896,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
     ];
 
     if (!in_array($name, $create_only_fields)) {
-      return $this->t('Create only field name %name is an unknown field name. Field names are case sensitive. Please see <a href=":url">create only fields</a> documentation for supported field names.', ['%name' => $name, ':url' => 'https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#create']);
+      return t('Create only field name %name is an unknown field name. Field names are case sensitive. Please see <a href=":url">create only fields</a> documentation for supported field names.', ['%name' => $name, ':url' => 'https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#create']);
     }
   }
 
@@ -911,10 +911,10 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
    */
   protected static function validateCreateFieldValue($value) {
     if (!is_bool($value) && !Unicode::strlen($value)) {
-      return $this->t('A create only field requires a value.');
+      return t('A create only field requires a value.');
     }
     if (Unicode::strlen($value) > 255) {
-      return $this->t('The value of a create only field must be a string at most 255 characters long.');
+      return t('The value of a create only field must be a string at most 255 characters long.');
     }
   }
 
