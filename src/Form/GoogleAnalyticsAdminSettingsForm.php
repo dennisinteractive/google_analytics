@@ -879,6 +879,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       'sampleRate',
       'siteSpeedSampleRate',
       'storage',
+      'useAmpClientId',
       'userId',
     ];
 
