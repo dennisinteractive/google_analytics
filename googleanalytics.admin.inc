@@ -806,6 +806,7 @@ function _googleanalytics_validate_create_field_name($name) {
     'sampleRate',
     'siteSpeedSampleRate',
     'storage',
+    'useAmpClientId',
     'userId',
   );
 
