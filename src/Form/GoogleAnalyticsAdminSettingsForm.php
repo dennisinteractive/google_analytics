@@ -892,6 +892,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       'cookie_expires',
       'sample_rate',
       'site_speed_sample_rate',
+      'use_amp_client_id',
       'user_id',
     ];
 
