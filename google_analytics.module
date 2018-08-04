@@ -7,7 +7,7 @@
  * Adds the required Javascript to all your Drupal pages to allow tracking by
  * the Google Analytics statistics package.
  *
- * @author: Alexander Hass <http://drupal.org/user/85918>
+ * @author: Alexander Hass <https://drupal.org/user/85918>
  */
 
 use Drupal\Component\Serialization\Json;
@@ -52,7 +52,7 @@ function google_analytics_help($route_name, RouteMatchInterface $route_match) {
       return $output;
 
     case 'google_analytics.admin_settings_form':
-      return t('<a href=":ga_url">Google Analytics</a> is a free (registration required) website traffic and marketing effectiveness service.', [':ga_url' => 'http://www.google.com/analytics/']);
+      return t('<a href=":ga_url">Google Analytics</a> is a free (registration required) website traffic and marketing effectiveness service.', [':ga_url' => 'https://marketingplatform.google.com/about/']);
   }
 }
 
@@ -176,7 +176,7 @@ function google_analytics_page_attachments(array &$page) {
 
     // Track access denied (403) and file not found (404) pages.
     if ($status == '403') {
-      // See http://www.google.com/support/analytics/bin/answer.py?answer=86927
+      // See https://www.google.com/support/analytics/bin/answer.py?answer=86927
       $url_custom = '"' . $base_path . '403.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
     }
     elseif ($status == '404') {
