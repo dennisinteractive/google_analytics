@@ -115,7 +115,7 @@ function googleanalytics_update_6001() {
 
   variable_set('googleanalytics_visibility', 0);
 
-  // Remove tracking from all administrative pages, see http://drupal.org/node/34970.
+  // Remove tracking from all administrative pages, see https://drupal.org/node/34970.
   $pages = array(
     'admin*',
     'user*',
@@ -258,7 +258,7 @@ function googleanalytics_update_6006() {
  * Remove "User identifier" and "User name" from segmentation fields.
  *
  * This is a data protection and privacy law change. For more information see Google Analytics
- * terms of use section 8.1 (http://www.google.com/analytics/en-GB/tos.html).
+ * terms of use section 8.1 (https://www.google.com/analytics/en-GB/tos.html).
  */
 function googleanalytics_update_6007() {
   $ret = array();
@@ -363,7 +363,7 @@ function googleanalytics_update_6301() {
   }
   else {
     $ret[] = array('success' => TRUE, 'query' => t('You need to deselect all selected profile fields in <a href="@admin">Google Analytics settings</a> and upgrade other profile fields manually or you may loose tracking data in future! See Google Analytics <a href="@customvar">Custom Variables</a> for more information.', array('@customvar' => 'https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingCustomVariables', '@admin' => url('admin/settings/googleanalytics'))));
-    $ret[] = array('success' => TRUE, 'query' => t('<a href="@token">Token</a> module is recommended for custom variables.', array('@token' => 'http://drupal.org/project/token')));
+    $ret[] = array('success' => TRUE, 'query' => t('<a href="@token">Token</a> module is recommended for custom variables.', array('@token' => 'https://drupal.org/project/token')));
   }
 
   return $ret;

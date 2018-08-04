@@ -7,7 +7,7 @@
  * Adds the required Javascript to all your Drupal pages to allow tracking by
  * the Google Analytics statistics package.
  *
- * @author: Alexander Hass <http://drupal.org/user/85918>
+ * @author: Alexander Hass <https://drupal.org/user/85918>
  */
 
 /**
@@ -17,7 +17,7 @@ define('GOOGLEANALYTICS_TRACKFILES_EXTENSIONS', '7z|aac|arc|arj|asf|asx|avi|bin|
 
 /**
  * Define default path exclusion list to remove tracking from admin pages,
- * see http://drupal.org/node/34970 for more information.
+ * see https://drupal.org/node/34970 for more information.
  */
 define('GOOGLEANALYTICS_PAGES', "admin\nadmin/*\nbatch\nnode/add*\nnode/*/*\nuser/*/*");
 
@@ -36,7 +36,7 @@ function googleanalytics_api() {
 function googleanalytics_help($path, $arg) {
   switch ($path) {
     case 'admin/settings/googleanalytics':
-      return t('<a href="@ga_url">Google Analytics</a> is a free (registration required) website traffic and marketing effectiveness service.', array('@ga_url' => 'http://www.google.com/analytics/'));
+      return t('<a href="@ga_url">Google Analytics</a> is a free (registration required) website traffic and marketing effectiveness service.', array('@ga_url' => 'https://marketingplatform.google.com/about/'));
   }
 }
 
@@ -188,7 +188,7 @@ function googleanalytics_add_js(&$vars, $hook) {
 
     // Track access denied (403) and file not found (404) pages.
     if ($status == '403 Forbidden') {
-      // See http://www.google.com/support/analytics/bin/answer.py?answer=86927
+      // See https://www.google.com/support/analytics/bin/answer.py?answer=86927
       $url_custom = '"/403.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer';
     }
     elseif ($status == '404 Not Found') {
@@ -415,7 +415,7 @@ function googleanalytics_cron() {
   // Regenerate the tracking code file every day.
   // Regenerate the tracking code file every day.
   if (time() - variable_get('googleanalytics_last_cache', 0) >= 86400 && variable_get('googleanalytics_cache', 0)) {
-    _googleanalytics_cache('http://www.google-analytics.com/analytics.js', TRUE);
+    _googleanalytics_cache('https://www.google-analytics.com/analytics.js', TRUE);
     variable_set('googleanalytics_last_cache', time());
   }
 }
