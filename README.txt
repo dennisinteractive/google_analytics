@@ -59,7 +59,7 @@ Custom dimensions and metrics
 =============================
 One example for custom dimensions tracking is the "User roles" tracking.
 
-1. In the Google Analytics (https://marketingplatform.google.com/about/)
+1. In the Google Analytics (https://marketingplatform.google.com/about/analytics/)
    Management Interface you need to setup Dimension #1 with name 
    e.g. "User roles". This step is required. Do not miss it, please.
 
