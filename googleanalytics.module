@@ -36,7 +36,7 @@ function googleanalytics_api() {
 function googleanalytics_help($path, $arg) {
   switch ($path) {
     case 'admin/config/system/googleanalytics':
-      return t('<a href="@ga_url">Google Analytics</a> is a free (registration required) website traffic and marketing effectiveness service.', array('@ga_url' => 'https://marketingplatform.google.com/about/'));
+      return t('<a href="@ga_url">Google Analytics</a> is a free (registration required) website traffic and marketing effectiveness service.', array('@ga_url' => 'https://marketingplatform.google.com/about/analytics/'));
   }
 }
 
