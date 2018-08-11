@@ -149,7 +149,7 @@ function google_analytics_page_attachments(array &$page) {
             // @todo: Track as exceptions?
             $event = [];
             $event['event_category'] = t('Messages');
-            $event['event_label'] = strip_tags($message);
+            $event['event_label'] = strip_tags((string) $message);
             $message_events .= 'gtag("event", ' . Json::encode($status_heading[$type]) . ', ' . Json::encode($event) . ');';
           }
         }
