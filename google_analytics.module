@@ -147,7 +147,7 @@ function google_analytics_page_attachments(array &$page) {
         if (in_array($type, $message_types)) {
           foreach ($messages as $message) {
             // @todo: Track as exceptions?
-            $message_events .= 'ga("send", "event", ' . Json::encode(t('Messages')) . ', ' . Json::encode($status_heading[$type]) . ', ' . Json::encode(strip_tags($message)) . ');';
+            $message_events .= 'ga("send", "event", ' . Json::encode(t('Messages')) . ', ' . Json::encode($status_heading[$type]) . ', ' . Json::encode(strip_tags((string) $message)) . ');';
           }
         }
       }
