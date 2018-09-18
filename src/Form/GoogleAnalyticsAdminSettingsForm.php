@@ -660,7 +660,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       ->set('track.adsense', $form_state->getValue('google_analytics_trackadsense'))
       ->set('track.displayfeatures', $form_state->getValue('google_analytics_trackdisplayfeatures'))
       ->set('privacy.anonymizeip', $form_state->getValue('google_analytics_tracker_anonymizeip'))
-      ->set('privacy.token_blacklist', explode(PHP_EOL, $form_state->getValue('google_analytics_token_blacklist')))
+      ->set('privacy.token_blacklist', array_filter(array_map('trim', explode(PHP_EOL, $form_state->getValue('google_analytics_token_blacklist')))))
       ->set('cache', $form_state->getValue('google_analytics_cache'))
       ->set('debug', $form_state->getValue('google_analytics_debug'))
       ->set('visibility.request_path_mode', $form_state->getValue('google_analytics_visibility_request_path_mode'))

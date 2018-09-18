@@ -23,6 +23,38 @@ track:
   displayfeatures: false
 privacy:
   anonymizeip: true
+  token_blacklist:
+    - ":account-name]"
+    - ":author:edit-url]"
+    - ":author:]"
+    - ":author:url]"
+    - ":author:path]"
+    - ":current-user]"
+    - ":current-user:original]"
+    - ":display-name]"
+    - ":fid]"
+    - ":mail]"
+    - ":name]"
+    - ":uid]"
+    - ":one-time-login-url]"
+    - ":owner]"
+    - ":owner:cancel-url]"
+    - ":owner:edit-url]"
+    - ":owner:url]"
+    - ":owner:path]"
+    - "user:cancel-url]"
+    - "user:edit-url]"
+    - "user:url]"
+    - "user:path]"
+    - "user:picture]"
+    - ":first-name]"
+    - ":last-name]"
+    - ":name-line]"
+    - ":mc-address]"
+    - ":thoroughfare]"
+    - ":premise]"
+    - ":name-raw]"
+    - ':ip-address]'
 custom:
   dimension: {  }
   metric: {  }
