@@ -47,3 +47,50 @@ function google_analytics_requirements($phase) {
 
   return $requirements;
 }
+
+/**
+ * Initialize the new tokens blacklist setting.
+ */
+function google_analytics_update_8201() {
+
+  $token_blacklist = [
+      ':account-name]',
+      ':author]',
+      ':author:edit-url]',
+      ':author:url]',
+      ':author:path]',
+      ':current-user]',
+      ':current-user:original]',
+      ':display-name]',
+      ':fid]',
+      ':mail]',
+      ':name]',
+      ':uid]',
+      ':one-time-login-url]',
+      ':owner]',
+      ':owner:cancel-url]',
+      ':owner:edit-url]',
+      ':owner:url]',
+      ':owner:path]',
+      'user:cancel-url]',
+      'user:edit-url]',
+      'user:url]',
+      'user:path]',
+      'user:picture]',
+      // addressfield_tokens.module
+      ':first-name]',
+      ':last-name]',
+      ':name-line]',
+      ':mc-address]',
+      ':thoroughfare]',
+      ':premise]',
+      // realname.module
+      ':name-raw]',
+      // token.module
+      ':ip-address]',
+    ];
+
+  \Drupal::configFactory()->getEditable('google_analytics.settings')
+    ->set('privacy.token_blacklist', $token_blacklist)
+    ->save();
+}
