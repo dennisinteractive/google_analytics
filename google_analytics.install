@@ -91,7 +91,7 @@ function google_analytics_update_8301() {
     ];
 
   $config = \Drupal::configFactory()->getEditable('google_analytics.settings');
-  if (empty($config->get('privacy.token_blacklis'))) {
+  if (empty($config->get('privacy.token_blacklist'))) {
     $config->set('privacy.token_blacklist', $token_blacklist)->save();
   }
 }
