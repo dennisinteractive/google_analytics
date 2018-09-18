@@ -51,7 +51,7 @@ function google_analytics_requirements($phase) {
 /**
  * Initialize the new tokens blacklist setting.
  */
-function google_analytics_update_8201() {
+function google_analytics_update_8301() {
 
   $token_blacklist = [
       ':account-name]',
@@ -90,7 +90,8 @@ function google_analytics_update_8201() {
       ':ip-address]',
     ];
 
-  \Drupal::configFactory()->getEditable('google_analytics.settings')
-    ->set('privacy.token_blacklist', $token_blacklist)
-    ->save();
+  $config = \Drupal::configFactory()->getEditable('google_analytics.settings');
+  if (empty($config->get('privacy.token_blacklis'))) {
+    $config->set('privacy.token_blacklist', $token_blacklist)->save();
+  }
 }
