@@ -356,6 +356,13 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Tell Google Analytics to anonymize the information sent by the tracker objects by removing the last octet of the IP address prior to its storage. Note that this will slightly reduce the accuracy of geographic reporting. In some countries it is not allowed to collect personally identifying information for privacy reasons and this setting may help you to comply with the local laws.'),
       '#default_value' => $config->get('privacy.anonymizeip'),
     ];
+    $form['tracking']['privacy']['google_analytics_token_blacklist'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Token blacklist'),
+      '#description' => $this->t('List of strings in tokens with personal identifying information not allowed for privacy reasons. See section 8.1 of the Google Analytics terms of use for more detailed information.'),
+      '#default_value' => implode(PHP_EOL, (array) $config->get('privacy.token_blacklist')),
+      '#rows' => 15,
+    ];
 
     // Custom Dimensions.
     $form['google_analytics_custom_dimension'] = [
@@ -653,6 +660,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
       ->set('track.adsense', $form_state->getValue('google_analytics_trackadsense'))
       ->set('track.displayfeatures', $form_state->getValue('google_analytics_trackdisplayfeatures'))
       ->set('privacy.anonymizeip', $form_state->getValue('google_analytics_tracker_anonymizeip'))
+      ->set('privacy.token_blacklist', array_filter(array_map('trim', explode(PHP_EOL, $form_state->getValue('google_analytics_token_blacklist')))))
       ->set('cache', $form_state->getValue('google_analytics_cache'))
       ->set('debug', $form_state->getValue('google_analytics_debug'))
       ->set('visibility.request_path_mode', $form_state->getValue('google_analytics_visibility_request_path_mode'))
@@ -694,7 +702,7 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
     $tokens = \Drupal::token()->scan($value);
     $invalid_tokens = static::getForbiddenTokens($tokens);
     if ($invalid_tokens) {
-      $form_state->setError($element, t('The %element-title is using the following forbidden tokens with personal identifying information: @invalid-tokens.', ['%element-title' => $element['#title'], '@invalid-tokens' => implode(', ', $invalid_tokens)]));
+      $form_state->setError($element, t('The %element-title is using blacklisted token(s): @invalid-tokens. Please remove from the blacklist in the <em>Privacy</em> tab first.', ['%element-title' => $element['#title'], '@invalid-tokens' => implode(', ', $invalid_tokens)]));
     }
 
     return $element;
@@ -743,44 +751,9 @@ class GoogleAnalyticsAdminSettingsForm extends ConfigFormBase {
     //
     // User tokens are not prefixed with colon to catch 'current-user' and
     // 'user'.
-    //
-    // TODO: If someone have better ideas, share them, please!
-    $token_blacklist = [
-      ':account-name]',
-      ':author]',
-      ':author:edit-url]',
-      ':author:url]',
-      ':author:path]',
-      ':current-user]',
-      ':current-user:original]',
-      ':display-name]',
-      ':fid]',
-      ':mail]',
-      ':name]',
-      ':uid]',
-      ':one-time-login-url]',
-      ':owner]',
-      ':owner:cancel-url]',
-      ':owner:edit-url]',
-      ':owner:url]',
-      ':owner:path]',
-      'user:cancel-url]',
-      'user:edit-url]',
-      'user:url]',
-      'user:path]',
-      'user:picture]',
-      // addressfield_tokens.module
-      ':first-name]',
-      ':last-name]',
-      ':name-line]',
-      ':mc-address]',
-      ':thoroughfare]',
-      ':premise]',
-      // realname.module
-      ':name-raw]',
-      // token.module
-      ':ip-address]',
-    ];
+
+    $config = \Drupal::config('google_analytics.settings');
+    $token_blacklist = (array) $config->get('privacy.token_blacklist');
 
     return preg_match('/' . implode('|', array_map('preg_quote', $token_blacklist)) . '/i', $token_string);
   }
